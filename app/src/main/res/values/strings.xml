@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ContactReader</string>
+    <string name="fisrsname">FisrsName</string>
+    <string name="lastname">LastName</string>
+    <string name="phone_number">Phone number</string>
+    <string name="email">Email</string>
+    <string name="details">DETAILS</string>
+    <string name="permission_contacts_rationale">Необходим доступ на чтение контактов</string>
+    <string name="ok">OK</string>
+</resources>
