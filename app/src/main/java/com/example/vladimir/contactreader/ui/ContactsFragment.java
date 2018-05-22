@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -71,7 +72,9 @@ public class ContactsFragment extends MvpAppCompatFragment implements
         };
         customAdapter = new CustomAdapter(null, itemClickListener);
         recyclerView.setAdapter(customAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         return rootView;
+
     }
 
 
