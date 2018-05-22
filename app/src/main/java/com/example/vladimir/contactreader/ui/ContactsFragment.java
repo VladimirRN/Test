@@ -16,6 +16,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.example.vladimir.contactreader.CustomAdapter;
+import com.example.vladimir.contactreader.MyDecoration;
 import com.example.vladimir.contactreader.R;
 import com.example.vladimir.contactreader.presenter.ContactPresenter;
 import com.example.vladimir.contactreader.presenter.MainPresenter;
@@ -72,18 +73,15 @@ public class ContactsFragment extends MvpAppCompatFragment implements
         };
         customAdapter = new CustomAdapter(null, itemClickListener);
         recyclerView.setAdapter(customAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        MyDecoration myDecoration = new MyDecoration(getContext());
+        recyclerView.addItemDecoration(myDecoration);
         return rootView;
-
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
-
-
 
     @Override
     public void showContacts(Cursor cursor) {
@@ -92,12 +90,10 @@ public class ContactsFragment extends MvpAppCompatFragment implements
 
     @Override
     public void startDetailsFragmentForPhone(String itemKey) {
-
     }
 
     @Override
     public void startDetailsFragmentForTablet(String itemKey) {
-
     }
 }
 
