@@ -7,22 +7,32 @@ import android.provider.ContactsContract;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
+import com.example.vladimir.contactreader.App;
+import com.example.vladimir.contactreader.AppDataBase;
+import com.example.vladimir.contactreader.Contact;
+import com.example.vladimir.contactreader.ContactDao;
+import com.example.vladimir.contactreader.ContactObject;
 import com.example.vladimir.contactreader.presenter.DetailsPresenter;
 import com.example.vladimir.contactreader.view.DetailsModelInterface;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DetailsModel implements LoaderManager.LoaderCallbacks<Cursor>, DetailsModelInterface {
 
+    private static final String TAG = "TAG" ;
     private final String SORT_ORDER = ContactsContract.Data.MIMETYPE;
     private final String SELECTION = ContactsContract.Data.LOOKUP_KEY + " = ?";
     private final String[] PROJECTION = {
-                    ContactsContract.Contacts.Data.MIMETYPE,
-                    ContactsContract.CommonDataKinds.Phone.NUMBER,
-                    ContactsContract.CommonDataKinds.Email.DATA,
-                    ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
-                    ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME};
+            ContactsContract.Contacts.Data.MIMETYPE,
+            ContactsContract.CommonDataKinds.Phone.NUMBER,
+            ContactsContract.CommonDataKinds.Email.DATA,
+            ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
+            ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME};
     private final DetailsPresenter detailsPresenter;
-    private  Context context;
+    private Context context;
     private LoaderManager loaderManager;
     private String[] mSelectionArgs = {""};
 
@@ -68,6 +78,27 @@ public class DetailsModel implements LoaderManager.LoaderCallbacks<Cursor>, Deta
 
             } while (cursor.moveToNext());
         }
+
+//        List<Contact> myList = new ArrayList<>();
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            myList.add(new Contact(cursor.getPosition(),cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME)),
+//                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME))));
+//            String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
+//            String surname = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
+//Log.d(TAG, name + " " + surname);
+//cursor.moveToNext();
+//        }
+//        cursor.close();
+//        AppDataBase db = App.getInstance().getDataBase();
+//        ContactDao contactDao = db.contactDao();
+//        contactDao.insert(myList);
+//        Log.d(TAG, "create database");
+//        List<Contact> list = contactDao.getAll();
+//        Log.d(TAG, "list size = " + list.size());
+//        for(int i = 0; i < myList.size(); i++) {
+//            System.out.println(myList.get(i));
+//        }
     }
 
     @Override

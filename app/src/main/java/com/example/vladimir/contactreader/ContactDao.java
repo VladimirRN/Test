@@ -3,6 +3,7 @@ package com.example.vladimir.contactreader;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
@@ -16,12 +17,12 @@ public interface ContactDao {
     @Query("SELECT * FROM contact WHERE id = :id")
     Contact getById(long id);
 
-    @Insert
-    void insert(Contact employee);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(List<Contact> list);
 
     @Update
-    void update(Contact employee);
+    void update(List<Contact> list);
 
     @Delete
-    void delete(Contact employee);
+    void delete(Contact contact);
 }
