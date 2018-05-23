@@ -51,7 +51,7 @@ public class ContactModel implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        // presenter.showContacts(cursor);
+         //presenter.showContacts(l);
         //List<Contact> list = new ArrayList<>();
         cursor.moveToFirst();
         List<Contact> myList = new ArrayList<>();
@@ -81,7 +81,10 @@ public class ContactModel implements LoaderManager.LoaderCallbacks<Cursor> {
             Log.d(TAG, d);
 
         }
+        presenter.showContacts(list2);
+        Log.d(TAG, "list2 size in model " + list2.size());
     }
+
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {

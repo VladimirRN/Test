@@ -5,8 +5,11 @@ import android.database.Cursor;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.example.vladimir.contactreader.Contact;
 import com.example.vladimir.contactreader.model.ContactModel;
 import com.example.vladimir.contactreader.view.ContactView;
+
+import java.util.List;
 
 
 @InjectViewState
@@ -22,7 +25,7 @@ public class ContactPresenter extends MvpPresenter<ContactView> {
         this.model = new ContactModel(context, loader, this);
     }
 
-    public void showContacts(Cursor cursor) {
-        getViewState().showContacts(cursor);
+    public void showContacts(List<Contact> list) {
+        getViewState().showContacts(list);
     }
 }

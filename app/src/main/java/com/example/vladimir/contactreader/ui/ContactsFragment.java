@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.example.vladimir.contactreader.Contact;
 import com.example.vladimir.contactreader.CustomAdapter;
 import com.example.vladimir.contactreader.MyDecoration;
 import com.example.vladimir.contactreader.R;
@@ -23,15 +25,19 @@ import com.example.vladimir.contactreader.presenter.MainPresenter;
 import com.example.vladimir.contactreader.view.ContactView;
 import com.example.vladimir.contactreader.view.MainActivityView;
 
+import java.util.List;
+
 
 public class ContactsFragment extends MvpAppCompatFragment implements
         ContactView, MainActivityView {
 
+    private static final String TAG = "TAG";
     @InjectPresenter(type = PresenterType.GLOBAL, tag = "mainPresenter")
     MainPresenter mainPresenter;
 
     @InjectPresenter
     ContactPresenter contactPresenter;
+    private List<Contact> list;
 
     @ProvidePresenter
     ContactPresenter provideContactPresenter() {
@@ -71,7 +77,9 @@ public class ContactsFragment extends MvpAppCompatFragment implements
                 }
             }
         };
-        customAdapter = new CustomAdapter(null, itemClickListener);
+
+        customAdapter = new CustomAdapter(list, itemClickListener);
+        Log.d(TAG, "constructor " + list.size());
         recyclerView.setAdapter(customAdapter);
         MyDecoration myDecoration = new MyDecoration(getContext());
         recyclerView.addItemDecoration(myDecoration);
@@ -84,8 +92,10 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     }
 
     @Override
-    public void showContacts(Cursor cursor) {
-        customAdapter.swapCursor(cursor);
+    public void showContacts(List<Contact> contact) {
+       // customAdapter.swapCursor(cursor);
+        list = contact;
+        Log.d(TAG, "list size in fragment " + list.size());
     }
 
     @Override
