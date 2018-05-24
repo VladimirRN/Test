@@ -25,6 +25,7 @@ import com.example.vladimir.contactreader.presenter.MainPresenter;
 import com.example.vladimir.contactreader.view.ContactView;
 import com.example.vladimir.contactreader.view.MainActivityView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,12 +38,11 @@ public class ContactsFragment extends MvpAppCompatFragment implements
 
     @InjectPresenter
     ContactPresenter contactPresenter;
-    private List<Contact> list;
-
     @ProvidePresenter
     ContactPresenter provideContactPresenter() {
         return new ContactPresenter(getContext(), getLoaderManager());
     }
+
 
     private CustomAdapter customAdapter;
     private boolean isTablet;
@@ -78,8 +78,8 @@ public class ContactsFragment extends MvpAppCompatFragment implements
             }
         };
 
-        customAdapter = new CustomAdapter(list, itemClickListener);
-        Log.d(TAG, "constructor " + list.size());
+        customAdapter = new CustomAdapter(itemClickListener);
+        Log.d(TAG, "constructor ");
         recyclerView.setAdapter(customAdapter);
         MyDecoration myDecoration = new MyDecoration(getContext());
         recyclerView.addItemDecoration(myDecoration);
@@ -93,9 +93,8 @@ public class ContactsFragment extends MvpAppCompatFragment implements
 
     @Override
     public void showContacts(List<Contact> contact) {
-       // customAdapter.swapCursor(cursor);
-        list = contact;
-        Log.d(TAG, "list size in fragment " + list.size());
+        customAdapter.setContacts(contact);
+
     }
 
     @Override

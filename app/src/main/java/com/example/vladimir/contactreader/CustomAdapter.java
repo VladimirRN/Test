@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
@@ -17,22 +18,26 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private static final String TAG = "TAG";
     private ItemClickListener itemClickListener;
     private final int KEY = 1;
-    private List<Contact> list;
+    private List<Contact> arrayList;
 
     public interface ItemClickListener {
         void onItemClick(String id);
     }
 
-    public CustomAdapter(List<Contact> list, ItemClickListener itemClickListener) {
-        this.list = list;
+    public CustomAdapter( ItemClickListener itemClickListener) {
+        this.arrayList = new ArrayList<>();
         this.itemClickListener = itemClickListener;
     }
 
-//    @Override
-//    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
-//        String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY));
-//        viewHolder.namTextView.setText(name);
-//    }
+    public void setContacts(List<Contact> list){
+        if (list != null && list.size() > 0) {
+            this.arrayList.clear();
+            this.arrayList.addAll(list);
+            Log.d(TAG, "setCOntacts " + arrayList.size());
+            notifyDataSetChanged();
+        }
+
+    }
 
     @Override
     public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -55,15 +60,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder holder, int position) {
-            holder.namTextView.setText(list.get(position).getDisplayName());
-        Log.d(TAG, "size list in adapter " + list.size());
-
+            holder.namTextView.setText(arrayList.get(position).getDisplayName());
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
-//        Log.d(TAG, "size list in adapter " + list.size());
+        return arrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -75,12 +75,6 @@ public class ContactModel implements LoaderManager.LoaderCallbacks<Cursor> {
         Log.d(TAG, "create database");
         List<Contact> list2 = contactDao.getAll();
         Log.d(TAG, "list size = " + list2.size());
-        for (int i = 0; i < myList.size(); i++) {
-            System.out.println(myList.get(i));
-            String d = myList.get(i).getDisplayName();
-            Log.d(TAG, d);
-
-        }
         presenter.showContacts(list2);
         Log.d(TAG, "list2 size in model " + list2.size());
     }

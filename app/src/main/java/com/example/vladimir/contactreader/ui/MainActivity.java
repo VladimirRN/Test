@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -21,6 +22,7 @@ import com.example.vladimir.contactreader.view.MainActivityView;
 
 public class MainActivity extends MvpAppCompatActivity implements MainActivityView {
 
+    private static final String TAG = "TAG";
     @InjectPresenter(type = PresenterType.GLOBAL, tag = "mainPresenter")
     MainPresenter mainPresenter;
 
@@ -32,6 +34,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "start");
         isTablet = getResources().getBoolean(R.bool.isTablet);
         boolean permissionGranted = true;
 

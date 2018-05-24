@@ -13,19 +13,31 @@ public class Contact {
     }
 
     @NonNull
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey()
     public Long id;
 
-//    public Contact(String id, String displayName) {
-//        this.id = id;
-//        this.displayName = displayName;
-//    }
-
-//    public Contact(String displayName) {
-//        this.displayName = displayName;
-//    }
-
     public String displayName;
+
+    public String name;
+
+    public String surname;
+
+    public String phone;
+
+    public String email;
+
+    public String geo;
+
+    public String address;
+
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 
     @NonNull
     public Long getId() {
@@ -64,14 +76,6 @@ public class Contact {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -91,18 +95,6 @@ public class Contact {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    public String name;
-
-    public String surname;
-
-    public String phone;
-
-    public String email;
-
-    public String geo;
-
-    public String address;
 
 
 }
