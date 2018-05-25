@@ -80,12 +80,13 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
     }
 
     @Override
-    public void startDetailsFragmentForPhone(String itemKey) {
+    public void startDetailsFragmentForPhone(int itemKey) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle args = new Bundle();
-        args.putString(INDEX, itemKey);
+        args.putInt(INDEX, itemKey);
+        Log.d(TAG, "key in actitvity " + itemKey);
         detailsFragment.setArguments(args);
         transaction.replace(R.id.fragment_container, detailsFragment);
         transaction.addToBackStack(null);
@@ -93,10 +94,10 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
     }
 
     @Override
-    public void startDetailsFragmentForTablet(String itemKey) {
+    public void startDetailsFragmentForTablet(int itemKey) {
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle args = new Bundle();
-        args.putString(INDEX, itemKey);
+        args.putInt(INDEX, itemKey);
         detailsFragment.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.details_fragment, detailsFragment).commit();
     }

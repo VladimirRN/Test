@@ -2,6 +2,7 @@ package com.example.vladimir.contactreader.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.example.vladimir.contactreader.view.DetailsView;
 
 public class DetailsFragment extends MvpAppCompatFragment implements DetailsView {
 
+    private static final String TAG = "TAG";
     @InjectPresenter
     DetailsPresenter detailsPresenter;
 
@@ -26,7 +28,7 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
     }
 
     public final String INDEX = "index";
-    public final String DEFAULT = " ";
+    public final int DEFAULT = -1;
     private TextView phoneText;
     private TextView emailText;
     private TextView nameText;
@@ -42,12 +44,17 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
         surnameText = rootView.findViewById(R.id.textFamily);
 
         Bundle args = getArguments();
-        String key = args != null ? args.getString(INDEX, DEFAULT) : DEFAULT;
-        if (!key.equals(DEFAULT)) {
+        if (args != null){
+        int key  = args.getInt(INDEX);
             detailsPresenter.getKeyItem(key);
+            Log.d(TAG, "key in details ftagmetn " + key);
         }
+
         return rootView;
-    }
+            //detailsPresenter.getKeyItem(key);
+        }
+       // return rootView;
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

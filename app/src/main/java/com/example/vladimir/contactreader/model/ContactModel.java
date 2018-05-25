@@ -20,10 +20,16 @@ import java.util.List;
 
 public class ContactModel implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "TAG";
+    private final String SORT_ORDER = ContactsContract.Data.MIMETYPE;
     private final String[] PROJECTION = {
             ContactsContract.Contacts._ID,
             ContactsContract.Contacts.LOOKUP_KEY,
             ContactsContract.Contacts.DISPLAY_NAME_PRIMARY};
+            //ContactsContract.Contacts.Data.MIMETYPE,
+           // ContactsContract.CommonDataKinds.Phone.NUMBER};
+           // ContactsContract.CommonDataKinds.Email.DATA,
+            //ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
+            //ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME};
     private Context context;
     private LoaderManager loaderManager;
     private ContactPresenter presenter;
@@ -45,38 +51,43 @@ public class ContactModel implements LoaderManager.LoaderCallbacks<Cursor> {
                 PROJECTION,
                 null,
                 null,
+                //SORT_ORDER
                 null
         );
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-         //presenter.showContacts(l);
-        //List<Contact> list = new ArrayList<>();
         cursor.moveToFirst();
         List<Contact> myList = new ArrayList<>();
-//        cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-//            myList.add(new Contact(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)),
-//                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY))));
             myList.add(new Contact(Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))),
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY))));
-             long name = Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)));
-           // Log.d(TAG, "id " + name);
-//            String surname = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
-//Log.d(TAG, name + " " + surname);
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)),
+            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)),null,null,null,null,null,null,null));
+                    //cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))));
+                    //cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS)),
+                   // cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.Data.MIMETYPE))));
+            // long name = Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)));
             cursor.moveToNext();
         }
 
-        cursor.close();
+        //cursor.close();
+
+
+
+
         AppDataBase db = App.getInstance().getDataBase();
         ContactDao contactDao = db.contactDao();
         contactDao.insert(myList);
         Log.d(TAG, "create database");
-        List<Contact> list2 = contactDao.getAll();
-        Log.d(TAG, "list size = " + list2.size());
-        presenter.showContacts(list2);
-        Log.d(TAG, "list2 size in model " + list2.size());
+        List<Contact> listContactfromDB = contactDao.getAll();
+        Log.d(TAG, "list size = " + listContactfromDB.size());
+        presenter.showContacts(listContactfromDB);
+        Log.d(TAG, "list2 size in model " + listContactfromDB.size());
+        for (int i = 0; i < listContactfromDB.size(); i++) {
+            //Log.d(TAG, " " + listContactfromDB.get(i).getId());
+
+        }
     }
 
 

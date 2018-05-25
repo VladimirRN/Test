@@ -10,12 +10,13 @@ import com.example.vladimir.contactreader.view.MainActivityView;
 public class MainPresenter extends MvpPresenter<MainActivityView> {
     private String TAG = "TAG";
 
-    public void itemClickInPhone(String key){
+    public void itemClickInPhone(int key){
         getViewState().startDetailsFragmentForPhone(key);
         Log.d(TAG, "presenter click");
     }
 
-    public void itemClickInTablet(String key) {
+    public void itemClickInTablet(int key) {
+        Log.d(TAG, "int key in presetner " + key);
         getViewState().startDetailsFragmentForTablet(key);
     }
 }

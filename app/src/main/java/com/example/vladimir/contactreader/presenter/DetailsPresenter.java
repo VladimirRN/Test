@@ -28,7 +28,7 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
         getViewState().setDetailsEmail(email);
     }
 
-    public void getKeyItem(String key) {
+    public void getKeyItem(int key) {
         detailsModel.putKey(key);
     }
 }

@@ -35,6 +35,9 @@ public class DetailsModel implements LoaderManager.LoaderCallbacks<Cursor>, Deta
     private Context context;
     private LoaderManager loaderManager;
     private String[] mSelectionArgs = {""};
+    private ArrayList<String> list;
+    private AppDataBase db;
+    private int id;
 
     public DetailsModel(Context context, LoaderManager loaderManager, DetailsPresenter detailsPresenter) {
         this.context = context;
@@ -57,6 +60,9 @@ public class DetailsModel implements LoaderManager.LoaderCallbacks<Cursor>, Deta
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+       // ArrayList<String> list = new ArrayList<>();
+        AppDataBase db = App.getInstance().getDataBase();
+        ContactDao contactDao = db.contactDao();
         if (cursor.moveToFirst()) {
             do {
                 String mime = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.Data.MIMETYPE));
@@ -65,18 +71,28 @@ public class DetailsModel implements LoaderManager.LoaderCallbacks<Cursor>, Deta
                         String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
                         String surname = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
                         detailsPresenter.getDataName(name, surname);
+                        //list.add(name);
+
+                        //list.add(surname);
                         break;
                     case ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE:
                         String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        contactDao.updatePhone(number, id);
+                        Contact contact = contactDao.getById(id);
+                        Log.d(TAG, "phone from db " + contact.getPhone());
                         detailsPresenter.getDataPhone(number);
                         break;
                     case ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE:
                         String address = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
                         detailsPresenter.getDataEmail(address);
+                        //list.add()
                         break;
+
+
                 }
 
             } while (cursor.moveToNext());
+
         }
 
 //        List<Contact> myList = new ArrayList<>();
@@ -106,7 +122,13 @@ public class DetailsModel implements LoaderManager.LoaderCallbacks<Cursor>, Deta
     }
 
     @Override
-    public void putKey(String key) {
-        mSelectionArgs[0] = key;
+    public void putKey(int key) {
+
+        AppDataBase db = App.getInstance().getDataBase();
+        ContactDao contactDao = db.contactDao();
+       Contact contact = contactDao.getById(key);
+       Log.d(TAG, "key in getByID " + key);
+       id = key;
+        mSelectionArgs[0] = contact.getLookupKey();
     }
 }

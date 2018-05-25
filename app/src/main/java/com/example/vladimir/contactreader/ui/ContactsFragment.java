@@ -68,7 +68,7 @@ public class ContactsFragment extends MvpAppCompatFragment implements
             // через Bundle попадают в DetailsFragment и уже оттуда через DetailsPresenter в DetailsModel что как мне кажется неправильно.
 
             @Override
-            public void onItemClick(String idItem) {
+            public void onItemClick(int idItem) {
                 isTablet = getResources().getBoolean(R.bool.isTablet);
                 if (isTablet) {
                     mainPresenter.itemClickInTablet(idItem);
@@ -98,11 +98,11 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     }
 
     @Override
-    public void startDetailsFragmentForPhone(String itemKey) {
+    public void startDetailsFragmentForPhone(int itemKey) {
     }
 
     @Override
-    public void startDetailsFragmentForTablet(String itemKey) {
+    public void startDetailsFragmentForTablet(int itemKey) {
     }
 }
 
