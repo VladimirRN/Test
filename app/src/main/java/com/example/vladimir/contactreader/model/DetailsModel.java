@@ -71,6 +71,8 @@ public class DetailsModel implements LoaderManager.LoaderCallbacks<Cursor>, Deta
                         String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
                         String surname = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
                         detailsPresenter.getDataName(name, surname);
+                        contactDao.updateName(name, id);
+                        contactDao.updateSurname(surname, id);
                         //list.add(name);
 
                         //list.add(surname);
@@ -78,13 +80,16 @@ public class DetailsModel implements LoaderManager.LoaderCallbacks<Cursor>, Deta
                     case ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE:
                         String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                         contactDao.updatePhone(number, id);
-                        Contact contact = contactDao.getById(id);
-                        Log.d(TAG, "phone from db " + contact.getPhone());
+//                        Contact contact = contactDao.getById(id);
+//                        Log.d(TAG, "phone from db " + contact.getPhone());
                         detailsPresenter.getDataPhone(number);
                         break;
                     case ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE:
                         String address = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
                         detailsPresenter.getDataEmail(address);
+                        contactDao.updateEmail(address, id);
+//                        Contact contact = contactDao.getById(id);
+//                        Log.d(TAG, "phone from db " + contact.getEmail());
                         //list.add()
                         break;
 
@@ -94,6 +99,10 @@ public class DetailsModel implements LoaderManager.LoaderCallbacks<Cursor>, Deta
             } while (cursor.moveToNext());
 
         }
+        Contact contact = contactDao.getById(id);
+        Log.d(TAG, "phone from db " + contact.getPhone() + " email " + contact.getEmail()
+        + " name " + contact.getName() + " surname " + contact.getSurname());
+
 
 //        List<Contact> myList = new ArrayList<>();
 //        cursor.moveToFirst();
