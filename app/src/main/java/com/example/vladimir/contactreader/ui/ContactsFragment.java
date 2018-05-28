@@ -1,10 +1,8 @@
 package com.example.vladimir.contactreader.ui;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,7 +23,6 @@ import com.example.vladimir.contactreader.presenter.MainPresenter;
 import com.example.vladimir.contactreader.view.ContactView;
 import com.example.vladimir.contactreader.view.MainActivityView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

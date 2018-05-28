@@ -28,7 +28,6 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
     }
 
     public final String INDEX = "index";
-    public final int DEFAULT = -1;
     private TextView phoneText;
     private TextView emailText;
     private TextView nameText;
@@ -44,16 +43,14 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
         surnameText = rootView.findViewById(R.id.textFamily);
 
         Bundle args = getArguments();
-        if (args != null){
-        int key  = args.getInt(INDEX);
+        if (args != null) {
+            int key = args.getInt(INDEX);
             detailsPresenter.getKeyItem(key);
             Log.d(TAG, "key in details ftagmetn " + key);
         }
 
         return rootView;
-            //detailsPresenter.getKeyItem(key);
-        }
-       // return rootView;
+    }
 
 
     @Override

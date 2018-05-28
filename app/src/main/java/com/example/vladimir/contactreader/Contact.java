@@ -2,74 +2,12 @@ package com.example.vladimir.contactreader;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 @Entity
 public class Contact {
-//    public Contact(@NonNull Long id, String displayName) {
-//        this.id = id;
-//        this.displayName = displayName;
-//    }
-//
-//    public Contact(@NonNull Long id, String displayName, String name, String surname, String phone, String email, String geo, String address) {
-//        this.id = id;
-//        this.displayName = displayName;
-//        this.name = name;
-//        this.surname = surname;
-//        this.phone = phone;
-//        this.email = email;
-//        this.geo = geo;
-//        this.address = address;
-//    }
-//@Ignore
-//    public Contact(@NonNull Long id, String displayName, String phone, String email) {
-//        this.id = id;
-//        this.displayName = displayName;
-//        this.phone = phone;
-//        this.email = email;
-//    }
-
-    @NonNull
-    @PrimaryKey()
-    @ColumnInfo(name = "id")
-    public Long id;
-//@Ignore
-//    public Contact(@NonNull Long id, String displayName, String phone, String email, String mimetype) {
-//        this.id = id;
-//        this.displayName = displayName;
-//        this.phone = phone;
-//        this.email = email;
-//        this.mimetype = mimetype;
-//    }
-
-//    public Contact(@NonNull Long id, String displayName) {
-//        this.id = id;
-//        this.displayName = displayName;
-//    }
-
-//    public Contact(@NonNull Long id, String displayName, String name, String surname, String phone, String email, String geo, String address, String mimetype) {
-//        this.id = id;
-//        this.displayName = displayName;
-//        this.name = name;
-//        this.surname = surname;
-//        this.phone = phone;
-//        this.email = email;
-//        this.geo = geo;
-//        this.address = address;
-//        this.mimetype = mimetype;
-//    }
-
-    public String getLookupKey() {
-        return lookupKey;
-    }
-
-    public void setLookupKey(String lookupKey) {
-        this.lookupKey = lookupKey;
-    }
-
+// TODO поменять модификаторы на private
     public Contact(@NonNull Long id, String displayName, String lookupKey, String name, String surname, String phone, String email, String geo, String address, String mimetype) {
         this.id = id;
         this.displayName = displayName;
@@ -83,6 +21,10 @@ public class Contact {
         this.mimetype = mimetype;
     }
 
+    @NonNull
+    @PrimaryKey()
+    @ColumnInfo(name = "id")
+    public Long id;
     @ColumnInfo(name = "displayName")
     public String displayName;
     @ColumnInfo(name = "lookupKey")
@@ -104,6 +46,14 @@ public class Contact {
 
 
 
+    public String getLookupKey() {
+        return lookupKey;
+    }
+
+    public void setLookupKey(String lookupKey) {
+        this.lookupKey = lookupKey;
+    }
+
     public String getMimetype() {
         return mimetype;
     }
@@ -111,9 +61,6 @@ public class Contact {
     public void setMimetype(String mimetype) {
         this.mimetype = mimetype;
     }
-
-
-
 
     public void setPhone(String phone) {
         this.phone = phone;
@@ -179,6 +126,4 @@ public class Contact {
     public void setAddress(String address) {
         this.address = address;
     }
-
-
 }

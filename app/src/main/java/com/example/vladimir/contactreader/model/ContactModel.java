@@ -25,11 +25,6 @@ public class ContactModel implements LoaderManager.LoaderCallbacks<Cursor> {
             ContactsContract.Contacts._ID,
             ContactsContract.Contacts.LOOKUP_KEY,
             ContactsContract.Contacts.DISPLAY_NAME_PRIMARY};
-            //ContactsContract.Contacts.Data.MIMETYPE,
-           // ContactsContract.CommonDataKinds.Phone.NUMBER};
-           // ContactsContract.CommonDataKinds.Email.DATA,
-            //ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
-            //ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME};
     private Context context;
     private LoaderManager loaderManager;
     private ContactPresenter presenter;
@@ -51,7 +46,6 @@ public class ContactModel implements LoaderManager.LoaderCallbacks<Cursor> {
                 PROJECTION,
                 null,
                 null,
-                //SORT_ORDER
                 null
         );
     }
@@ -63,29 +57,17 @@ public class ContactModel implements LoaderManager.LoaderCallbacks<Cursor> {
         while (!cursor.isAfterLast()) {
             myList.add(new Contact(Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))),
                     cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)),
-            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)),null,null,null,null,null,null,null));
-                    //cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))));
-                    //cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS)),
-                   // cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.Data.MIMETYPE))));
-            // long name = Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)));
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)), null, null, null, null, null, null, null));
             cursor.moveToNext();
         }
 
-        //cursor.close();
-
-
-
-
         AppDataBase db = App.getInstance().getDataBase();
         ContactDao contactDao = db.contactDao();
-        //contactDao.insert(myList);
-        //contactDao.update(myList);
         Log.d(TAG, "create database");
         List<Contact> listContactfromDB = contactDao.getAll();
-        if (listContactfromDB.size()!=0){
+        if (listContactfromDB.size() != 0) {
             contactDao.delete(listContactfromDB);
             contactDao.insert(myList);
-
         } else {
             contactDao.insert(myList);
         }
@@ -93,10 +75,6 @@ public class ContactModel implements LoaderManager.LoaderCallbacks<Cursor> {
         Log.d(TAG, "list size = " + listContactfromDB.size());
         presenter.showContacts(listContactfromDBnew);
         Log.d(TAG, "list2 size in model " + listContactfromDBnew.size());
-        //for (int i = 0; i < listContactfromDB.size(); i++) {
-            //Log.d(TAG, " " + listContactfromDB.get(i).getId());
-
-       // }
         DetailsModel detailsModel = new DetailsModel(context, loaderManager);
         detailsModel.startLoader();
     }

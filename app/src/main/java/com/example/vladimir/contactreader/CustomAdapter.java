@@ -17,7 +17,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     private static final String TAG = "TAG";
     private ItemClickListener itemClickListener;
-    private final int KEY = 1;
     private List<Contact> arrayList;
 
     public interface ItemClickListener {
@@ -49,9 +48,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id = viewHolder.getAdapterPosition() + 1;
+                int id = viewHolder.getAdapterPosition() ;
                 Log.d(TAG, "getAdapterPosition " + id);
-                //String key = cursor.getString(KEY);
                 itemClickListener.onItemClick(id);
                 Log.d(TAG, "click");
             }

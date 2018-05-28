@@ -12,9 +12,6 @@ import android.util.Log;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
-import com.example.vladimir.contactreader.App;
-import com.example.vladimir.contactreader.AppDataBase;
-import com.example.vladimir.contactreader.ContactDao;
 import com.example.vladimir.contactreader.R;
 import com.example.vladimir.contactreader.presenter.MainPresenter;
 import com.example.vladimir.contactreader.view.MainActivityView;
@@ -38,8 +35,6 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
         isTablet = getResources().getBoolean(R.bool.isTablet);
         boolean permissionGranted = true;
 
-       // AppDataBase db = App.getInstance().getDataBase();
-        //ContactDao contactDao = db.contactDao();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
