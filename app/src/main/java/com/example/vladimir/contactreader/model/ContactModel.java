@@ -39,7 +39,7 @@ public class ContactModel implements LoaderManager.LoaderCallbacks<Cursor> {
         this.context = context;
         this.presenter = contactPresenter;
         this.loaderManager = loaderMan;
-        loaderManager.initLoader(0, null, this);
+        loaderManager.initLoader(9000, null, this);
     }
 
     @Override
@@ -78,16 +78,27 @@ public class ContactModel implements LoaderManager.LoaderCallbacks<Cursor> {
 
         AppDataBase db = App.getInstance().getDataBase();
         ContactDao contactDao = db.contactDao();
-        contactDao.insert(myList);
+        //contactDao.insert(myList);
+        //contactDao.update(myList);
         Log.d(TAG, "create database");
         List<Contact> listContactfromDB = contactDao.getAll();
+        if (listContactfromDB.size()!=0){
+            contactDao.delete(listContactfromDB);
+            contactDao.insert(myList);
+
+        } else {
+            contactDao.insert(myList);
+        }
+        List<Contact> listContactfromDBnew = contactDao.getAll();
         Log.d(TAG, "list size = " + listContactfromDB.size());
-        presenter.showContacts(listContactfromDB);
-        Log.d(TAG, "list2 size in model " + listContactfromDB.size());
-        for (int i = 0; i < listContactfromDB.size(); i++) {
+        presenter.showContacts(listContactfromDBnew);
+        Log.d(TAG, "list2 size in model " + listContactfromDBnew.size());
+        //for (int i = 0; i < listContactfromDB.size(); i++) {
             //Log.d(TAG, " " + listContactfromDB.get(i).getId());
 
-        }
+       // }
+        DetailsModel detailsModel = new DetailsModel(context, loaderManager);
+        detailsModel.startLoader();
     }
 
 

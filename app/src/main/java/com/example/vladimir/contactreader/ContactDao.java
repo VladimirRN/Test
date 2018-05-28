@@ -18,6 +18,8 @@ public interface ContactDao {
     Contact getById(long id);
 
 
+
+
 //    @Query("UPDATE orders SET order_amount = :amount, price = :price WHERE order_id =:id")
 //    void update(Float amount, Float price, int id);
 
@@ -41,8 +43,8 @@ public interface ContactDao {
     void insert(List<Contact> list);
 
     @Update
-    void update(Contact contact);
+    void update(List<Contact> contact);
 
     @Delete
-    void delete(Contact contact);
+    void delete(List<Contact> contact);
 }

@@ -24,7 +24,7 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
 
     @ProvidePresenter
     DetailsPresenter provideDetailsPresenter() {
-        return new DetailsPresenter(getContext(), getLoaderManager());
+        return new DetailsPresenter();
     }
 
     public final String INDEX = "index";
