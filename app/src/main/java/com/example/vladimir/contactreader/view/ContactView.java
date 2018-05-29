@@ -8,5 +8,5 @@ import com.example.vladimir.contactreader.Contact;
 import java.util.List;
 
 public interface ContactView extends MvpView {
-    void showContacts(List<Contact> list);
+    void showContacts(List<String> list);
 }

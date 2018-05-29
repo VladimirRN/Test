@@ -52,7 +52,6 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
         return rootView;
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

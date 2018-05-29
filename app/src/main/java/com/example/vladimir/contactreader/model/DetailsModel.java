@@ -107,7 +107,7 @@ public class DetailsModel implements LoaderManager.LoaderCallbacks<Cursor> {
                 String l = newListContact.get(i).getLookupKey();
                 String email = newListContact.get(i).getEmail();
                 String name = newListContact.get(i).getName();
-                Log.d(TAG, "phone from db = " + phone + " lookyp = " + l + "email  = " + email + " " + name);
+                //Log.d(TAG, "phone from db = " + phone + " lookyp = " + l + "email  = " + email + " " + name);
             }
         }
     }
@@ -117,7 +117,7 @@ public class DetailsModel implements LoaderManager.LoaderCallbacks<Cursor> {
     public void onLoaderReset(Loader<Cursor> loader) {
     }
 
-    public void startLoader() {
+    public void startDetailLoader() {
         AppDataBase db = App.getInstance().getDataBase();
         ContactDao contactDao = db.contactDao();
         List<Contact> listContact = contactDao.getAll();

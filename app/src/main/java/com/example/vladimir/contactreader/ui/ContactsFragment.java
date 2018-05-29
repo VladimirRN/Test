@@ -3,10 +3,14 @@ package com.example.vladimir.contactreader.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,7 +18,6 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.example.vladimir.contactreader.Contact;
 import com.example.vladimir.contactreader.CustomAdapter;
 import com.example.vladimir.contactreader.MyDecoration;
 import com.example.vladimir.contactreader.R;
@@ -27,7 +30,7 @@ import java.util.List;
 
 
 public class ContactsFragment extends MvpAppCompatFragment implements
-        ContactView, MainActivityView {
+        ContactView, MainActivityView, android.support.v7.widget.SearchView.OnQueryTextListener {
 
     private static final String TAG = "TAG";
     @InjectPresenter(type = PresenterType.GLOBAL, tag = "mainPresenter")
@@ -47,6 +50,12 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
     }
 
     @Nullable
@@ -89,7 +98,15 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     }
 
     @Override
-    public void showContacts(List<Contact> contact) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.main_menu, menu);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        final android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public void showContacts(List<String> contact) {
         customAdapter.setContacts(contact);
 
     }
@@ -100,6 +117,18 @@ public class ContactsFragment extends MvpAppCompatFragment implements
 
     @Override
     public void startDetailsFragmentForTablet(int itemKey) {
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        customAdapter.filter(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        customAdapter.filter(newText);
+        return true;
     }
 }
 

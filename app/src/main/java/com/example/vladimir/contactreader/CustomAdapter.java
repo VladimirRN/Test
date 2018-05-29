@@ -1,7 +1,5 @@
 package com.example.vladimir.contactreader;
 
-import android.database.Cursor;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,30 +10,54 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
     private static final String TAG = "TAG";
     private ItemClickListener itemClickListener;
-    private List<Contact> arrayList;
+    private List<String> arrayList;
+    private List<String> dataSet;
 
     public interface ItemClickListener {
         void onItemClick(int id);
     }
 
-    public CustomAdapter( ItemClickListener itemClickListener) {
+    public CustomAdapter(ItemClickListener itemClickListener) {
         this.arrayList = new ArrayList<>();
         this.itemClickListener = itemClickListener;
+        this.dataSet = new ArrayList<>();
     }
 
-    public void setContacts(List<Contact> list){
+    public void setContacts(List<String> list) {
         if (list != null && list.size() > 0) {
             this.arrayList.clear();
             this.arrayList.addAll(list);
-            Log.d(TAG, "setCOntacts " + arrayList.size());
+            this.dataSet.clear();
+            this.dataSet.addAll(list);
             notifyDataSetChanged();
         }
 
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        if (charText.length() == 0) {
+            arrayList.clear();
+            arrayList.addAll(dataSet);
+        } else {
+            ArrayList<String> result = new ArrayList<>();
+            for (int i = 0; i < arrayList.size(); i++) {
+                String item = arrayList.get(i);
+                Log.d(TAG, "item = " + item);
+                if (item.toLowerCase().contains(charText)) {
+                    result.add(item);
+                }
+            }
+            arrayList.clear();
+            arrayList.addAll(result);
+        }
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -48,7 +70,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id = viewHolder.getAdapterPosition() ;
+                int id = viewHolder.getAdapterPosition();
                 Log.d(TAG, "getAdapterPosition " + id);
                 itemClickListener.onItemClick(id);
                 Log.d(TAG, "click");
@@ -59,7 +81,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder holder, int position) {
-            holder.namTextView.setText(arrayList.get(position).getDisplayName());
+        holder.namTextView.setText(arrayList.get(position));
     }
 
     @Override

@@ -73,10 +73,14 @@ public class ContactModel implements LoaderManager.LoaderCallbacks<Cursor> {
         }
         List<Contact> listContactfromDBnew = contactDao.getAll();
         Log.d(TAG, "list size = " + listContactfromDB.size());
-        presenter.showContacts(listContactfromDBnew);
+        List<String> listDisplayName = new ArrayList<>();
+        for (int i = 0; i < listContactfromDBnew.size(); i++) {
+            listDisplayName.add(listContactfromDBnew.get(i).getDisplayName());
+        }
+        presenter.showContacts(listDisplayName);
         Log.d(TAG, "list2 size in model " + listContactfromDBnew.size());
         DetailsModel detailsModel = new DetailsModel(context, loaderManager);
-        detailsModel.startLoader();
+        detailsModel.startDetailLoader();
     }
 
 

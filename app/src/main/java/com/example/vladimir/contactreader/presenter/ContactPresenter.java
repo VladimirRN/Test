@@ -25,7 +25,7 @@ public class ContactPresenter extends MvpPresenter<ContactView> {
         this.model = new ContactModel(context, loader, this);
     }
 
-    public void showContacts(List<Contact> list) {
+    public void showContacts(List<String> list) {
         getViewState().showContacts(list);
     }
 }
