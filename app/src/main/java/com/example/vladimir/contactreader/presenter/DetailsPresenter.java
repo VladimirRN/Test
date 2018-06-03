@@ -1,23 +1,17 @@
 package com.example.vladimir.contactreader.presenter;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.example.vladimir.contactreader.model.Details;
-import com.example.vladimir.contactreader.model.DetailsModel;
+import com.example.vladimir.contactreader.model.DetailsRead;
 import com.example.vladimir.contactreader.view.DetailsView;
 
 @InjectViewState
 public class DetailsPresenter extends MvpPresenter<DetailsView> {
-    //public Details details;
 
-    public Details details;
+    public DetailsRead details;
 
     public DetailsPresenter() {
-        this.details = new Details(this);
+        this.details = new DetailsRead(this);
    }
 
         public void getDataName (String name, String surname){
@@ -33,8 +27,8 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
             getViewState().setDetailsEmail(email);
         }
 
-        public void getKeyItem ( int key){
-            details.putKey(key);
+        public void getKeyItem (int key){
+            details.getContactByKey(key);
         }
 
     }

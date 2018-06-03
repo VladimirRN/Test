@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,6 +38,7 @@ public class ContactsFragment extends MvpAppCompatFragment implements
 
     @InjectPresenter
     ContactPresenter contactPresenter;
+
     @ProvidePresenter
     ContactPresenter provideContactPresenter() {
         return new ContactPresenter(getContext());
@@ -76,9 +76,7 @@ public class ContactsFragment extends MvpAppCompatFragment implements
                 mainPresenter.itemClickInPhone(idItem);
             }
         };
-
         customAdapter = new CustomAdapter(itemClickListener);
-        Log.d(TAG, "constructor ");
         recyclerView.setAdapter(customAdapter);
         MyDecoration myDecoration = new MyDecoration(getContext());
         recyclerView.addItemDecoration(myDecoration);
@@ -101,7 +99,6 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     @Override
     public void showContacts(List<String> contact) {
         customAdapter.setContacts(contact);
-
     }
 
     @Override
@@ -132,6 +129,12 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     public boolean onQueryTextChange(String newText) {
         customAdapter.filter(newText);
         return true;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        contactPresenter.disposeFragment();
     }
 }
 

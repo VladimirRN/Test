@@ -1,4 +1,4 @@
-package com.example.vladimir.contactreader;
+package com.example.vladimir.contactreader.model.db;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;

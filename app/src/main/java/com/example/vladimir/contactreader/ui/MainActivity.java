@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -16,19 +15,10 @@ import com.example.vladimir.contactreader.R;
 import com.example.vladimir.contactreader.presenter.MainPresenter;
 import com.example.vladimir.contactreader.view.MainActivityView;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-
 
 public class MainActivity extends MvpAppCompatActivity implements MainActivityView {
 
-    private static final String TAG = "TAG2";
+    private static final String TAG = "TAG";
     @InjectPresenter(type = PresenterType.GLOBAL, tag = "mainPresenter")
     MainPresenter mainPresenter;
 
@@ -40,21 +30,14 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // Log.d(TAG, "start");
         isTablet = getResources().getBoolean(R.bool.isTablet);
         boolean permissionGranted = true;
-
-
-
-
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
             permissionGranted = false;
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_CONTACTS},
                     MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-
         }
         if (savedInstanceState == null) {
             if (permissionGranted) {
@@ -93,7 +76,6 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle args = new Bundle();
         args.putInt(INDEX, itemKey);
-        Log.d(TAG, "key in actitvity " + itemKey);
         detailsFragment.setArguments(args);
         transaction.replace(R.id.fragment_container, detailsFragment);
         transaction.addToBackStack(null);

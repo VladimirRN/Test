@@ -2,7 +2,6 @@ package com.example.vladimir.contactreader.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +45,7 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
         if (args != null) {
             int key = args.getInt(INDEX);
             detailsPresenter.getKeyItem(key);
-            Log.d(TAG, "key in details ftagmetn " + key);
         }
-
         return rootView;
     }
 

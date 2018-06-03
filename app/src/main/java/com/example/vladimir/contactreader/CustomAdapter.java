@@ -2,7 +2,6 @@ package com.example.vladimir.contactreader;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             this.arrayListCopy.addAll(list);
             notifyDataSetChanged();
         }
-
     }
 
     public void filter(String charText) {
@@ -49,7 +47,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             ArrayList<String> result = new ArrayList<>();
             for (int i = 0; i < arrayList.size(); i++) {
                 String item = arrayList.get(i);
-                Log.d(TAG, "item = " + item);
                 if (item.toLowerCase().contains(charText)) {
                     result.add(item);
                 }
@@ -67,14 +64,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         View view = layoutInflater.inflate(R.layout.contacts_list_item, parent, false);
 
         final ViewHolder viewHolder = new ViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int id = viewHolder.getAdapterPosition();
-                Log.d(TAG, "getAdapterPosition " + id);
-                itemClickListener.onItemClick(id);
-                Log.d(TAG, "click");
-            }
+        view.setOnClickListener(v -> {
+            int id = viewHolder.getAdapterPosition();
+            itemClickListener.onItemClick(id);
         });
         return viewHolder;
     }

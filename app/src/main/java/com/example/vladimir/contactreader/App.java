@@ -3,6 +3,8 @@ package com.example.vladimir.contactreader;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 
+import com.example.vladimir.contactreader.model.db.AppDataBase;
+
 public class App extends Application {
     public static App instance;
 

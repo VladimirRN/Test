@@ -1,4 +1,4 @@
-package com.example.vladimir.contactreader;
+package com.example.vladimir.contactreader.model.db;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 
 @Entity
 public class Contact {
-// TODO поменять модификаторы на private
     public Contact(@NonNull Long id, String displayName, String lookupKey, String name, String surname, String phone, String email, String geo, String address, String mimetype) {
         this.id = id;
         this.displayName = displayName;
@@ -24,45 +23,44 @@ public class Contact {
     @NonNull
     @PrimaryKey()
     @ColumnInfo(name = "id")
-    public Long id;
+    private Long id;
     @ColumnInfo(name = "displayName")
-    public String displayName;
+    private String displayName;
     @ColumnInfo(name = "lookupKey")
-    public String lookupKey;
+    private String lookupKey;
     @ColumnInfo(name = "name")
-    public String name;
+    private String name;
     @ColumnInfo(name = "surname")
-    public String surname;
+    private String surname;
     @ColumnInfo(name = "phone")
-    public String phone;
+    private String phone;
     @ColumnInfo(name = "email")
-    public String email;
+    private String email;
     @ColumnInfo(name = "geo")
-    public String geo;
+    private String geo;
     @ColumnInfo(name = "address")
-    public String address;
+    private String address;
     @ColumnInfo(name = "mimetype")
-    public String mimetype;
-
+    private String mimetype;
 
 
     public String getLookupKey() {
         return lookupKey;
     }
 
-    public void setLookupKey(String lookupKey) {
+    private void setLookupKey(String lookupKey) {
         this.lookupKey = lookupKey;
     }
 
-    public String getMimetype() {
+    private String getMimetype() {
         return mimetype;
     }
 
-    public void setMimetype(String mimetype) {
+    private void setMimetype(String mimetype) {
         this.mimetype = mimetype;
     }
 
-    public void setPhone(String phone) {
+    private void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -75,7 +73,7 @@ public class Contact {
         return id;
     }
 
-    public void setId(@NonNull Long id) {
+    private void setId(@NonNull Long id) {
         this.id = id;
     }
 
@@ -83,7 +81,7 @@ public class Contact {
         return displayName;
     }
 
-    public void setDisplayName(String displayName) {
+    private void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
@@ -91,7 +89,7 @@ public class Contact {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -99,7 +97,7 @@ public class Contact {
         return surname;
     }
 
-    public void setSurname(String surname) {
+    private void setSurname(String surname) {
         this.surname = surname;
     }
 
@@ -107,23 +105,23 @@ public class Contact {
         return phone;
     }
 
-    public void setEmail(String email) {
+    private void setEmail(String email) {
         this.email = email;
     }
 
-    public String getGeo() {
+    private String getGeo() {
         return geo;
     }
 
-    public void setGeo(String geo) {
+    private void setGeo(String geo) {
         this.geo = geo;
     }
 
-    public String getAddress() {
+    private String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    private void setAddress(String address) {
         this.address = address;
     }
 }
