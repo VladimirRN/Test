@@ -23,44 +23,44 @@ public class Contact {
     @NonNull
     @PrimaryKey()
     @ColumnInfo(name = "id")
-    private Long id;
+    public Long id;
     @ColumnInfo(name = "displayName")
-    private String displayName;
+    public String displayName;
     @ColumnInfo(name = "lookupKey")
-    private String lookupKey;
+    public String lookupKey;
     @ColumnInfo(name = "name")
-    private String name;
+    public String name;
     @ColumnInfo(name = "surname")
-    private String surname;
+    public String surname;
     @ColumnInfo(name = "phone")
-    private String phone;
+    public String phone;
     @ColumnInfo(name = "email")
-    private String email;
+    public String email;
     @ColumnInfo(name = "geo")
-    private String geo;
+    public String geo;
     @ColumnInfo(name = "address")
-    private String address;
+    public String address;
     @ColumnInfo(name = "mimetype")
-    private String mimetype;
+    public String mimetype;
 
 
     public String getLookupKey() {
         return lookupKey;
     }
 
-    private void setLookupKey(String lookupKey) {
+    public void setLookupKey(String lookupKey) {
         this.lookupKey = lookupKey;
     }
 
-    private String getMimetype() {
+    public String getMimetype() {
         return mimetype;
     }
 
-    private void setMimetype(String mimetype) {
+    public void setMimetype(String mimetype) {
         this.mimetype = mimetype;
     }
 
-    private void setPhone(String phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -73,7 +73,7 @@ public class Contact {
         return id;
     }
 
-    private void setId(@NonNull Long id) {
+    public void setId(@NonNull Long id) {
         this.id = id;
     }
 
@@ -81,7 +81,7 @@ public class Contact {
         return displayName;
     }
 
-    private void setDisplayName(String displayName) {
+    public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
@@ -89,7 +89,7 @@ public class Contact {
         return name;
     }
 
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -97,7 +97,7 @@ public class Contact {
         return surname;
     }
 
-    private void setSurname(String surname) {
+    public void setSurname(String surname) {
         this.surname = surname;
     }
 
@@ -105,23 +105,23 @@ public class Contact {
         return phone;
     }
 
-    private void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    private String getGeo() {
+    public String getGeo() {
         return geo;
     }
 
-    private void setGeo(String geo) {
+    public void setGeo(String geo) {
         this.geo = geo;
     }
 
-    private String getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    private void setAddress(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 }
