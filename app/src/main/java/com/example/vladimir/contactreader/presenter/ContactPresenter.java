@@ -1,6 +1,7 @@
 package com.example.vladimir.contactreader.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -19,12 +20,15 @@ import io.reactivex.schedulers.Schedulers;
 public class ContactPresenter extends MvpPresenter<ContactView> {
 
     public ContactLoad model;
+    public static final String TAG = "TAG";
 
 
 
     public ContactPresenter(Context context) {
         this.model = new ContactLoad(context, this);
         startLoadingContacts();
+        getViewState().showProgress();
+        Log.d(TAG, "show");
     }
 
 
@@ -50,7 +54,8 @@ public class ContactPresenter extends MvpPresenter<ContactView> {
 
                     @Override
                     public void onComplete() {
-
+                        getViewState().hideProgress();
+                        Log.d(TAG, "HIDE");
                     }
                 });
     }

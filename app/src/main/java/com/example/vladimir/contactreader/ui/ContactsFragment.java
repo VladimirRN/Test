@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -46,6 +47,7 @@ public class ContactsFragment extends MvpAppCompatFragment implements
 
     private CustomAdapter customAdapter;
     private boolean isTablet;
+    private ProgressBar progressBar;
 
     @Override
     public void onAttach(Context context) {
@@ -63,24 +65,15 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recyclerview_layout, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler);
+        progressBar = rootView.findViewById(R.id.progressBar);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        CustomAdapter.ItemClickListener itemClickListener = new CustomAdapter.ItemClickListener() {
-
-            // Каким образом лучше организовать передачу данных из одного фрагмента в другой в MVP, общаться между
-            // собой должны презенторы?, передавать каким то образом данные напрямую куда нужно?.
-
-            // Сейчас у меня по клику на списке контактов  данные идут  через глобальный презентор MainPresenter от ContactFragment к Activity далее
-            // через Bundle попадают в DetailsFragment и уже оттуда через DetailsPresenter в DetailsModel что как мне кажется неправильно.
-
-            @Override
-            public void onItemClick(int idItem) {
-                isTablet = getResources().getBoolean(R.bool.isTablet);
-                if (isTablet) {
-                    mainPresenter.itemClickInTablet(idItem);
-                } else {
-                    mainPresenter.itemClickInPhone(idItem);
-                }
+        CustomAdapter.ItemClickListener itemClickListener = idItem -> {
+            isTablet = getResources().getBoolean(R.bool.isTablet);
+            if (isTablet) {
+                mainPresenter.itemClickInTablet(idItem);
+            } else {
+                mainPresenter.itemClickInPhone(idItem);
             }
         };
 
@@ -109,6 +102,16 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     public void showContacts(List<String> contact) {
         customAdapter.setContacts(contact);
 
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

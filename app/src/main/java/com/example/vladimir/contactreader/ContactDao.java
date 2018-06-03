@@ -9,10 +9,15 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface ContactDao {
     @Query("SELECT * FROM contact")
     List<Contact> getAll();
+
+    @Query("SELECT * FROM contact")
+    Flowable<List<Contact>> getAllContact();
 
     @Query("SELECT * FROM contact WHERE id = :id")
     Contact getById(long id);
