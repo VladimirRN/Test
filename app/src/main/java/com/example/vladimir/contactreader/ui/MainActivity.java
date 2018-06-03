@@ -16,10 +16,19 @@ import com.example.vladimir.contactreader.R;
 import com.example.vladimir.contactreader.presenter.MainPresenter;
 import com.example.vladimir.contactreader.view.MainActivityView;
 
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 public class MainActivity extends MvpAppCompatActivity implements MainActivityView {
 
-    private static final String TAG = "TAG";
+    private static final String TAG = "TAG2";
     @InjectPresenter(type = PresenterType.GLOBAL, tag = "mainPresenter")
     MainPresenter mainPresenter;
 
@@ -31,9 +40,12 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG, "start");
+       // Log.d(TAG, "start");
         isTablet = getResources().getBoolean(R.bool.isTablet);
         boolean permissionGranted = true;
+
+
+
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)

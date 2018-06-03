@@ -17,7 +17,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private static final String TAG = "TAG";
     private ItemClickListener itemClickListener;
     private List<String> arrayList;
-    private List<String> dataSet;
+    private List<String> arrayListCopy;
 
     public interface ItemClickListener {
         void onItemClick(int id);
@@ -26,15 +26,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public CustomAdapter(ItemClickListener itemClickListener) {
         this.arrayList = new ArrayList<>();
         this.itemClickListener = itemClickListener;
-        this.dataSet = new ArrayList<>();
+        this.arrayListCopy = new ArrayList<>();
     }
 
     public void setContacts(List<String> list) {
         if (list != null && list.size() > 0) {
             this.arrayList.clear();
             this.arrayList.addAll(list);
-            this.dataSet.clear();
-            this.dataSet.addAll(list);
+            this.arrayListCopy.clear();
+            this.arrayListCopy.addAll(list);
             notifyDataSetChanged();
         }
 
@@ -44,7 +44,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         charText = charText.toLowerCase(Locale.getDefault());
         if (charText.length() == 0) {
             arrayList.clear();
-            arrayList.addAll(dataSet);
+            arrayList.addAll(arrayListCopy);
         } else {
             ArrayList<String> result = new ArrayList<>();
             for (int i = 0; i < arrayList.size(); i++) {
@@ -57,7 +57,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             arrayList.clear();
             arrayList.addAll(result);
         }
-        this.notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     @Override

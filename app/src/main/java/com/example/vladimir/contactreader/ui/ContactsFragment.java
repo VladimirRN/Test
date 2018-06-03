@@ -40,7 +40,7 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     ContactPresenter contactPresenter;
     @ProvidePresenter
     ContactPresenter provideContactPresenter() {
-        return new ContactPresenter(getContext(), getLoaderManager());
+        return new ContactPresenter(getContext());
     }
 
 

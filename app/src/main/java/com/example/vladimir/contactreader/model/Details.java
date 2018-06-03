@@ -9,14 +9,14 @@ import com.example.vladimir.contactreader.view.DetailsModelInterface;
 
 import java.util.List;
 
-public class Details implements DetailsModelInterface {
+public class Details  {
     public DetailsPresenter detailsPresenter;
 
     public Details(DetailsPresenter detailsPresenter) {
         this.detailsPresenter = detailsPresenter;
     }
 
-    @Override
+//    @Override
     public void putKey(int key) {
         AppDataBase dataBase = App.getInstance().getDataBase();
         ContactDao contactDao = dataBase.contactDao();
