@@ -1,18 +1,20 @@
 package com.example.vladimir.contactreader.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.vladimir.contactreader.model.ContactLoad;
-import com.example.vladimir.contactreader.model.DetailsLoad;
+import com.example.vladimir.contactreader.model.db.Contact;
 import com.example.vladimir.contactreader.view.ContactView;
 
 import java.util.List;
 
-import io.reactivex.Observer;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -20,70 +22,50 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class ContactPresenter extends MvpPresenter<ContactView> {
 
-    private final DetailsLoad detailsLoad;
     private static final String TAG = "TAG";
-    private ContactLoad model;
-    private DisposableObserver<List<String>> disposableObserver;
+    private ContactLoad contactLoad;
+    private DisposableObserver<String> disposableObserver;
 
 
     public ContactPresenter(Context context) {
-        this.model = new ContactLoad(context);
-        this.detailsLoad = new DetailsLoad(context);
-        startLoadingContacts();
+        this.contactLoad = new ContactLoad(context, this);
         getViewState().showProgress();
+        startLoadingContacts();
     }
 
-
-    public void startLoadingContacts() {
-
-        disposableObserver = new DisposableObserver<List<String>>() {
-            @Override
-            public void onNext(List<String> displayName) {
-                getViewState().showContacts(displayName);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-                getViewState().hideProgress();
-                detailsLoad.getDeatailContact()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<String>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-
-                            }
-
-                            @Override
-                            public void onNext(String string) {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onComplete() {
-
-                            }
-                        });
-            }
-        };
-        model.getContacts()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(disposableObserver);
-
+    public void showListContact(List<Contact> contacts) {
+        getViewState().hideProgress();
+        getViewState().showContacts(contacts);
     }
 
     public void disposeFragment() {
         disposableObserver.dispose();
+    }
+
+    public void startLoadingContacts() {
+        disposableObserver = new DisposableObserver<String>() {
+            @Override
+            public void onNext(String s) {
+                Log.d(TAG, "onNext");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "ERROR");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d(TAG, "onComplete");
+                contactLoad.getListDisplayName();
+            }
+        };
+        contactLoad.getContacts()
+                .flatMap((Function<List<Contact>, ObservableSource<Contact>>) Observable::fromIterable)
+                .flatMap((Function<Contact, ObservableSource<String>>) contact -> contactLoad.getDeatailsContact(contact))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(disposableObserver);
     }
 }

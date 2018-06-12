@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.vladimir.contactreader.model.db.Contact;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -15,11 +17,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     private static final String TAG = "TAG";
     private ItemClickListener itemClickListener;
-    private List<String> arrayList;
-    private List<String> arrayListCopy;
+    private List<Contact> arrayList;
+    private List<Contact> arrayListCopy;
 
     public interface ItemClickListener {
-        void onItemClick(int id);
+        void onItemClick(Long id);
     }
 
     public CustomAdapter(ItemClickListener itemClickListener) {
@@ -28,7 +30,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         this.arrayListCopy = new ArrayList<>();
     }
 
-    public void setContacts(List<String> list) {
+    public void setContacts(List<Contact> list) {
         if (list != null && list.size() > 0) {
             this.arrayList.clear();
             this.arrayList.addAll(list);
@@ -44,11 +46,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             arrayList.clear();
             arrayList.addAll(arrayListCopy);
         } else {
-            ArrayList<String> result = new ArrayList<>();
+            ArrayList<Contact> result = new ArrayList<>();
             for (int i = 0; i < arrayList.size(); i++) {
-                String item = arrayList.get(i);
+                String item = arrayList.get(i).getDisplayName();
                 if (item.toLowerCase().contains(charText)) {
-                    result.add(item);
+                    result.add(arrayList.get(i));
                 }
             }
             arrayList.clear();
@@ -65,7 +67,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         final ViewHolder viewHolder = new ViewHolder(view);
         view.setOnClickListener(v -> {
-            int id = viewHolder.getAdapterPosition();
+            Long id = arrayList.get(viewHolder.getAdapterPosition()).getId();
             itemClickListener.onItemClick(id);
         });
         return viewHolder;
@@ -73,7 +75,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder holder, int position) {
-        holder.namTextView.setText(arrayList.get(position));
+        holder.namTextView.setText(arrayList.get(position).getDisplayName());
     }
 
     @Override

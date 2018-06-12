@@ -7,11 +7,11 @@ import com.example.vladimir.contactreader.view.MainActivityView;
 @InjectViewState
 public class MainPresenter extends MvpPresenter<MainActivityView> {
 
-    public void itemClickInPhone(int key){
+    public void itemClickInPhone(Long key){
         getViewState().startDetailsFragmentForPhone(key);
     }
 
-    public void itemClickInTablet(int key) {
+    public void itemClickInTablet(Long key) {
         getViewState().startDetailsFragmentForTablet(key);
     }
 }

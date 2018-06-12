@@ -7,7 +7,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 public interface MainActivityView extends MvpView {
 
     @StateStrategyType(SkipStrategy.class)
-    void startDetailsFragmentForPhone(int itemKey);
+    void startDetailsFragmentForPhone(Long itemKey);
 
-    void startDetailsFragmentForTablet(int itemKey);
+    void startDetailsFragmentForTablet(Long itemKey);
 }

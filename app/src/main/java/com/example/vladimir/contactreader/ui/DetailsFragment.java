@@ -43,7 +43,7 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
 
         Bundle args = getArguments();
         if (args != null) {
-            int key = args.getInt(INDEX);
+            Long key = args.getLong(INDEX);
             detailsPresenter.getKeyItem(key);
         }
         return rootView;

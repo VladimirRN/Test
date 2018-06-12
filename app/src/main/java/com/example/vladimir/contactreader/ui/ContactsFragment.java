@@ -21,6 +21,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.example.vladimir.contactreader.CustomAdapter;
 import com.example.vladimir.contactreader.MyDecoration;
 import com.example.vladimir.contactreader.R;
+import com.example.vladimir.contactreader.model.db.Contact;
 import com.example.vladimir.contactreader.presenter.ContactPresenter;
 import com.example.vladimir.contactreader.presenter.MainPresenter;
 import com.example.vladimir.contactreader.view.ContactView;
@@ -97,7 +98,7 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     }
 
     @Override
-    public void showContacts(List<String> contact) {
+    public void showContacts(List<Contact> contact) {
         customAdapter.setContacts(contact);
     }
 
@@ -112,11 +113,11 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     }
 
     @Override
-    public void startDetailsFragmentForPhone(int itemKey) {
+    public void startDetailsFragmentForPhone(Long itemKey) {
     }
 
     @Override
-    public void startDetailsFragmentForTablet(int itemKey) {
+    public void startDetailsFragmentForTablet(Long itemKey) {
     }
 
     @Override
@@ -128,7 +129,7 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     @Override
     public boolean onQueryTextChange(String newText) {
         customAdapter.filter(newText);
-        return true;
+        return false;
     }
 
     @Override
