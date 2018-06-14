@@ -16,36 +16,30 @@ import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.PresenterType;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.example.vladimir.contactreader.CustomAdapter;
 import com.example.vladimir.contactreader.MyDecoration;
 import com.example.vladimir.contactreader.R;
 import com.example.vladimir.contactreader.model.db.Contact;
 import com.example.vladimir.contactreader.presenter.ContactPresenter;
-import com.example.vladimir.contactreader.presenter.MainPresenter;
 import com.example.vladimir.contactreader.view.ContactView;
-import com.example.vladimir.contactreader.view.MainActivityView;
 
 import java.util.List;
 
 
 public class ContactsFragment extends MvpAppCompatFragment implements
-        ContactView, MainActivityView, android.support.v7.widget.SearchView.OnQueryTextListener {
+        ContactView, android.support.v7.widget.SearchView.OnQueryTextListener {
 
-    private static final String TAG = "TAG";
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = "mainPresenter")
-    MainPresenter mainPresenter;
 
     @InjectPresenter
     ContactPresenter contactPresenter;
-
+    private clickOnItem callback;
     @ProvidePresenter
     ContactPresenter provideContactPresenter() {
         return new ContactPresenter(getContext());
     }
 
-
+    private static final String TAG = "TAG";
     private CustomAdapter customAdapter;
     private boolean isTablet;
     private ProgressBar progressBar;
@@ -53,6 +47,12 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        try {
+            callback = (clickOnItem) context;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -72,9 +72,9 @@ public class ContactsFragment extends MvpAppCompatFragment implements
         CustomAdapter.ItemClickListener itemClickListener = idItem -> {
             isTablet = getResources().getBoolean(R.bool.isTablet);
             if (isTablet) {
-                mainPresenter.itemClickInTablet(idItem);
+                getIdItemTablet(idItem);
             } else {
-                mainPresenter.itemClickInPhone(idItem);
+                getIdItemPhone(idItem);
             }
         };
         customAdapter = new CustomAdapter(itemClickListener);
@@ -113,14 +113,6 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     }
 
     @Override
-    public void startDetailsFragmentForPhone(Long itemKey) {
-    }
-
-    @Override
-    public void startDetailsFragmentForTablet(Long itemKey) {
-    }
-
-    @Override
     public boolean onQueryTextSubmit(String query) {
         customAdapter.filter(query);
         return true;
@@ -132,13 +124,26 @@ public class ContactsFragment extends MvpAppCompatFragment implements
         return false;
     }
 
+    public interface clickOnItem {
+        void itemClickInTablet(long id);
+
+        void itemCLickInPhone(long id);
+    }
+
+    public void getIdItemTablet(long id) {
+        callback.itemClickInTablet(id);
+    }
+
+    public void getIdItemPhone(long id) {
+        callback.itemCLickInPhone(id);
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         contactPresenter.disposeFragment();
     }
 }
-
 
 
 

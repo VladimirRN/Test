@@ -9,19 +9,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.PresenterType;
 import com.example.vladimir.contactreader.R;
-import com.example.vladimir.contactreader.presenter.MainPresenter;
-import com.example.vladimir.contactreader.view.MainActivityView;
 
 
-public class MainActivity extends MvpAppCompatActivity implements MainActivityView {
+public class MainActivity extends MvpAppCompatActivity implements ContactsFragment.clickOnItem {
 
     private static final String TAG = "TAG";
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = "mainPresenter")
-    MainPresenter mainPresenter;
-
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
     public final String INDEX = "index";
     private boolean isTablet;
@@ -70,25 +63,25 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
     }
 
     @Override
-    public void startDetailsFragmentForPhone(Long itemKey) {
+    public void itemClickInTablet(long id) {
+        DetailsFragment detailsFragment = new DetailsFragment();
+        Bundle args = new Bundle();
+        args.putLong(INDEX, id);
+        detailsFragment.setArguments(args);
+        getSupportFragmentManager().beginTransaction().replace(R.id.details_fragment, detailsFragment).commit();
+    }
+
+    @Override
+    public void itemCLickInPhone(long id) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle args = new Bundle();
-        args.putLong(INDEX, itemKey);
+        args.putLong(INDEX, id);
         detailsFragment.setArguments(args);
         transaction.replace(R.id.fragment_container, detailsFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    @Override
-    public void startDetailsFragmentForTablet(Long itemKey) {
-        DetailsFragment detailsFragment = new DetailsFragment();
-        Bundle args = new Bundle();
-        args.putLong(INDEX, itemKey);
-        detailsFragment.setArguments(args);
-        getSupportFragmentManager().beginTransaction().replace(R.id.details_fragment, detailsFragment).commit();
     }
 }
 

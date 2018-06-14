@@ -42,6 +42,7 @@ public class ContactPresenter extends MvpPresenter<ContactView> {
         disposableObserver.dispose();
     }
 
+
     public void startLoadingContacts() {
         disposableObserver = new DisposableObserver<String>() {
             @Override

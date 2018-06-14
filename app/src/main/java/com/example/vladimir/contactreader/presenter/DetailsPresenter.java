@@ -18,7 +18,6 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
             getViewState().setDetailsName(name, surname);
         }
 
-
         public void getDataPhone (String phone){
             getViewState().setDetailsPhone(phone);
         }
