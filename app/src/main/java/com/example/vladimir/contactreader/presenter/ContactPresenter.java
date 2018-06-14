@@ -29,12 +29,10 @@ public class ContactPresenter extends MvpPresenter<ContactView> {
 
     public ContactPresenter(Context context) {
         this.contactLoad = new ContactLoad(context, this);
-        getViewState().showProgress();
         startLoadingContacts();
     }
 
     public void showListContact(List<Contact> contacts) {
-        getViewState().hideProgress();
         getViewState().showContacts(contacts);
     }
 
@@ -44,6 +42,7 @@ public class ContactPresenter extends MvpPresenter<ContactView> {
 
 
     public void startLoadingContacts() {
+        getViewState().showProgress();
         disposableObserver = new DisposableObserver<String>() {
             @Override
             public void onNext(String s) {
@@ -59,6 +58,7 @@ public class ContactPresenter extends MvpPresenter<ContactView> {
             @Override
             public void onComplete() {
                 Log.d(TAG, "onComplete");
+                getViewState().hideProgress();
                 contactLoad.getListDisplayName();
             }
         };

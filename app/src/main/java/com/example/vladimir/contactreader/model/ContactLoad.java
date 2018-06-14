@@ -122,13 +122,6 @@ public class ContactLoad {
         contactDao.getAllContact()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(contacts -> {
-//                    if (contacts.size() != 0) {
-//                        List<String> nameContact = new ArrayList<>();
-//                        for (int i = 0; i < contacts.size(); i++) {
-//                            String name = contacts.get(i).getDisplayName();
-//                            nameContact.add(name);
-//                        }
-//                        contactPresenter.showListContact(nameContact);
                     contactPresenter.showListContact(contacts);
                     //}
                 });
