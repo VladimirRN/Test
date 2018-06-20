@@ -1,23 +1,27 @@
 package com.example.vladimir.contactreader.model;
 
 import com.example.vladimir.contactreader.App;
+//import com.example.vladimir.contactreader.DetailsPresenterInterface;
 import com.example.vladimir.contactreader.model.db.AppDataBase;
 import com.example.vladimir.contactreader.model.db.Contact;
 import com.example.vladimir.contactreader.model.db.ContactDao;
-import com.example.vladimir.contactreader.presenter.DetailsPresenter;
+
+import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class DetailsRead {
-    public DetailsPresenter detailsPresenter;
+public class DetailsRead implements DetailsInterface{
+   // public DetailsPresenterInterface detailsPresenterInterface;
+   // private Contact contact;
 
-    public DetailsRead(DetailsPresenter detailsPresenter) {
-        this.detailsPresenter = detailsPresenter;
-    }
+  @Inject
+  public DetailsRead(){
+  }
 
-    public void getContactByKey(Long key) {
+    @Override
+    public void getData(onDetailsListener onDetailsListener, Long key) {
         AppDataBase dataBase = App.getInstance().getDataBase();
         ContactDao contactDao = dataBase.contactDao();
         contactDao.getContactById(key)
@@ -26,9 +30,9 @@ public class DetailsRead {
                 .subscribe(new DisposableSingleObserver<Contact>() {
                     @Override
                     public void onSuccess(Contact contact) {
-                        detailsPresenter.getDataEmail(contact.getEmail());
-                        detailsPresenter.getDataPhone(contact.getPhone());
-                        detailsPresenter.getDataName(contact.getName(), contact.getSurname());
+                        onDetailsListener.getDataEmail(contact.getEmail());
+                        onDetailsListener.getDataName(contact.getName(), contact.getSurname());
+                        onDetailsListener.getDataPhone(contact.getPhone());
                     }
 
                     @Override
@@ -37,4 +41,5 @@ public class DetailsRead {
                     }
                 });
     }
+
 }

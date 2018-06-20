@@ -2,6 +2,7 @@ package com.example.vladimir.contactreader.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.example.vladimir.contactreader.App;
 import com.example.vladimir.contactreader.CustomAdapter;
 import com.example.vladimir.contactreader.MyDecoration;
 import com.example.vladimir.contactreader.R;
@@ -26,6 +28,9 @@ import com.example.vladimir.contactreader.view.ContactView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
 
 public class ContactsFragment extends MvpAppCompatFragment implements
         ContactView, android.support.v7.widget.SearchView.OnQueryTextListener {
@@ -33,12 +38,14 @@ public class ContactsFragment extends MvpAppCompatFragment implements
 
     @InjectPresenter
     ContactPresenter contactPresenter;
-    private clickOnItem callback;
+    @Inject
+    public Provider<ContactPresenter> presenterProvider;
     @ProvidePresenter
     ContactPresenter provideContactPresenter() {
-        return new ContactPresenter(getContext());
+        return presenterProvider.get();
     }
 
+    private ClickOnItem callback;
     private static final String TAG = "TAG";
     private CustomAdapter customAdapter;
     private boolean isTablet;
@@ -47,9 +54,10 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
+        App app = (App) getActivity().getApplication();
+        app.getContactComponent().inject(this);
         try {
-            callback = (clickOnItem) context;
+            callback = (ClickOnItem) context;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,7 +71,7 @@ public class ContactsFragment extends MvpAppCompatFragment implements
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recyclerview_layout, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler);
         progressBar = rootView.findViewById(R.id.progressBar);
@@ -124,7 +132,7 @@ public class ContactsFragment extends MvpAppCompatFragment implements
         return false;
     }
 
-    public interface clickOnItem {
+    public interface ClickOnItem {
         void itemClickInTablet(long id);
 
         void itemCLickInPhone(long id);

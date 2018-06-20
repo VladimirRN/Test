@@ -1,6 +1,8 @@
 package com.example.vladimir.contactreader.ui;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +12,13 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.example.vladimir.contactreader.App;
 import com.example.vladimir.contactreader.R;
 import com.example.vladimir.contactreader.presenter.DetailsPresenter;
 import com.example.vladimir.contactreader.view.DetailsView;
+
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 
 public class DetailsFragment extends MvpAppCompatFragment implements DetailsView {
@@ -21,10 +27,14 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
     @InjectPresenter
     DetailsPresenter detailsPresenter;
 
+    @Inject
+    public Provider<DetailsPresenter> contactpresenterProvider;
+
     @ProvidePresenter
     DetailsPresenter provideDetailsPresenter() {
-        return new DetailsPresenter();
+        return contactpresenterProvider.get();
     }
+
 
     public final String INDEX = "index";
     private TextView phoneText;
@@ -32,9 +42,16 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
     private TextView nameText;
     private TextView surnameText;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        App app = (App) getActivity().getApplication();
+        app.getContactComponent().inject(this);
+    }
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.details_fragment, container, false);
         phoneText = rootView.findViewById(R.id.textPhone);
         emailText = rootView.findViewById(R.id.textEmail);

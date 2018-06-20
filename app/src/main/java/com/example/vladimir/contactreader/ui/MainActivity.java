@@ -7,12 +7,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.example.vladimir.contactreader.R;
 
 
-public class MainActivity extends MvpAppCompatActivity implements ContactsFragment.clickOnItem {
+public class MainActivity extends AppCompatActivity implements ContactsFragment.ClickOnItem {
 
     private static final String TAG = "TAG";
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;

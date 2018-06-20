@@ -9,15 +9,15 @@ import com.example.vladimir.contactreader.App;
 import com.example.vladimir.contactreader.model.db.AppDataBase;
 import com.example.vladimir.contactreader.model.db.Contact;
 import com.example.vladimir.contactreader.model.db.ContactDao;
-import com.example.vladimir.contactreader.presenter.ContactPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import javax.inject.Inject;
 
-public class ContactLoad {
+import io.reactivex.Observable;
+
+public class ContactLoad implements ContactLoading {
     private static final String TAG = "TAG";
     private final String[] PROJECTION = {
             ContactsContract.Contacts._ID,
@@ -30,18 +30,17 @@ public class ContactLoad {
             ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
             ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME};
     private final String SELECTIONDETAILS = ContactsContract.Data.LOOKUP_KEY + " = ?";
-    private final ContactPresenter contactPresenter;
     private Context context;
     private Cursor cursor;
     private String[] selectionArgs = {""};
     private final String SORT_ORDER = ContactsContract.Data.MIMETYPE;
 
-
-    public ContactLoad(Context context, ContactPresenter contactPresenter) {
+    @Inject
+    public ContactLoad(Context context) {
         this.context = context;
-        this.contactPresenter = contactPresenter;
     }
 
+    @Override
     public Observable<List<Contact>> getContacts() {
         return Observable.create(ObservableEmitter -> {
             try {
@@ -77,6 +76,7 @@ public class ContactLoad {
         });
     }
 
+    @Override
     public Observable<String> getDeatailsContact(Contact contact) {
         return Observable.create(emitter -> {
             try {
@@ -114,16 +114,5 @@ public class ContactLoad {
                 emitter.onComplete();
             }
         });
-    }
-
-    public void getListDisplayName() {
-        AppDataBase dataBase = App.getInstance().getDataBase();
-        ContactDao contactDao = dataBase.contactDao();
-        contactDao.getAllContact()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(contacts -> {
-                    contactPresenter.showListContact(contacts);
-                    //}
-                });
     }
 }
