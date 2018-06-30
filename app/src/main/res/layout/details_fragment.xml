@@ -47,4 +47,30 @@
         android:hint="@string/email"
         android:textSize="22sp" />
 
+    <TextView
+        android:id="@+id/textLat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textName"
+        android:layout_below="@+id/textEmail"
+        android:textSize="22sp"
+        android:text="@string/latitude" />
+
+    <TextView
+        android:id="@+id/textLng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textName"
+        android:layout_below="@+id/textLat"
+        android:textSize="22sp"
+        android:text="@string/longitude" />
+
+    <Button
+        android:id="@+id/setLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textName"
+        android:layout_below="@+id/textLng"
+        android:text="@string/setlocation" />
+
 </RelativeLayout>

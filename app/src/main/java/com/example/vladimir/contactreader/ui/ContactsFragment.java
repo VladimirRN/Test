@@ -99,6 +99,7 @@ public class ContactsFragment extends MvpAppCompatFragment implements
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //TODO добавить значок просмотра всех пинов на карте
         getActivity().getMenuInflater().inflate(R.menu.main_menu, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(searchItem);
@@ -106,7 +107,18 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_map: {
+                callback.startMapForListContacts();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void showContacts(List<Contact> contact) {
+
         customAdapter.setContacts(contact);
     }
 
@@ -136,6 +148,8 @@ public class ContactsFragment extends MvpAppCompatFragment implements
         void itemClickInTablet(long id);
 
         void itemCLickInPhone(long id);
+
+        void startMapForListContacts();
     }
 
     public void getIdItemTablet(long id) {

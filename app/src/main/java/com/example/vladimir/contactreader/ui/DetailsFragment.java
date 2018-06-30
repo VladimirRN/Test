@@ -4,9 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
@@ -41,12 +43,24 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
     private TextView emailText;
     private TextView nameText;
     private TextView surnameText;
+    private TextView latitude;
+    private TextView longitude;
+    private Button setLocation;
+
+    private setLocation callback;
+    private long key;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         App app = (App) getActivity().getApplication();
         app.getContactComponent().inject(this);
+
+        try {
+            callback = (setLocation) context;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Nullable
@@ -57,13 +71,29 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
         emailText = rootView.findViewById(R.id.textEmail);
         nameText = rootView.findViewById(R.id.textName);
         surnameText = rootView.findViewById(R.id.textFamily);
+        latitude = rootView.findViewById(R.id.textLat);
+        longitude = rootView.findViewById(R.id.textLng);
+        setLocation = rootView.findViewById(R.id.setLocation);
+
+
+        setLocation.setOnClickListener(view -> startMap(key));
 
         Bundle args = getArguments();
         if (args != null) {
-            Long key = args.getLong(INDEX);
+             key = args.getLong(INDEX);
             detailsPresenter.getKeyItem(key);
+
         }
         return rootView;
+    }
+
+    public interface setLocation{
+        void startMapForSingleContact(long id);
+    }
+
+    public void startMap(Long id){
+        Log.d(TAG, "id = " + id);
+        callback.startMapForSingleContact(id);
     }
 
     @Override
@@ -85,6 +115,22 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
     @Override
     public void setDetailsEmail(String email) {
         emailText.setText(email);
+    }
+
+    @Override
+    public void setLat(double lat) {
+        latitude.setText(String.valueOf(lat));
+    }
+
+    @Override
+    public void setLng(double lng) {
+        longitude.setText(String.valueOf(lng));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+       // Log.d(TAG, "onResume detailsFragment");
     }
 }
 

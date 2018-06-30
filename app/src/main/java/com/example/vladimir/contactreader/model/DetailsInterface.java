@@ -8,6 +8,10 @@ public interface DetailsInterface {
         void getDataName(String name, String surname);
 
         void getDataPhone(String phone);
+
+        void getLat(double lat);
+
+        void getLng(double lng);
     }
 
     void getData(onDetailsListener onDetailsListener, Long key);

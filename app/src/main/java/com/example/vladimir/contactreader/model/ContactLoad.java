@@ -16,6 +16,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 public class ContactLoad implements ContactLoading {
     private static final String TAG = "TAG";
@@ -42,36 +44,40 @@ public class ContactLoad implements ContactLoading {
 
     @Override
     public Observable<List<Contact>> getContacts() {
-        return Observable.create(ObservableEmitter -> {
-            try {
-                ContentResolver contentResolver = context.getApplicationContext().getContentResolver();
-                cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, PROJECTION, null, null, null);
-                if (cursor != null) {
-                    cursor.moveToFirst();
+        return Observable.create(new ObservableOnSubscribe<List<Contact>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<Contact>> ObservableEmitter) throws Exception {
+                try {
+                    ContentResolver contentResolver = context.getApplicationContext().getContentResolver();
+                    cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, PROJECTION, null, null, null);
+                    if (cursor != null) {
+                        cursor.moveToFirst();
+                    }
+                    List<Contact> myList = new ArrayList<>();
+                    while (!cursor.isAfterLast()) {
+                        myList.add(new Contact(Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))),
+                                cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)),
+                                cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)), null, null, null, null, null, null, null));
+                        cursor.moveToNext();
+                    }
+                    cursor.close();
+                    AppDataBase db = App.getInstance().getDataBase();
+                    ContactDao contactDao = db.contactDao();
+                    List<Contact> listContactFromDB = contactDao.getAll();
+                    if (listContactFromDB.size() != 0) {
+                        //TODO решить вопрос с обновлением бд
+                       // contactDao.delete(listContactFromDB);
+                        //contactDao.insert(myList);
+                    } else {
+                        contactDao.insert(myList);
+                    }
+                    List<Contact> newListContactfromDB = contactDao.getAll();
+                    ObservableEmitter.onNext(newListContactfromDB);
+                } catch (NumberFormatException e) {
+                    ObservableEmitter.onError(e);
+                } finally {
+                    ObservableEmitter.onComplete();
                 }
-                List<Contact> myList = new ArrayList<>();
-                while (!cursor.isAfterLast()) {
-                    myList.add(new Contact(Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))),
-                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)),
-                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)), null, null, null, null, null, null, null));
-                    cursor.moveToNext();
-                }
-                cursor.close();
-                AppDataBase db = App.getInstance().getDataBase();
-                ContactDao contactDao = db.contactDao();
-                List<Contact> listContactFromDB = contactDao.getAll();
-                if (listContactFromDB.size() != 0) {
-                    contactDao.delete(listContactFromDB);
-                    contactDao.insert(myList);
-                } else {
-                    contactDao.insert(myList);
-                }
-                List<Contact> newListContactfromDB = contactDao.getAll();
-                ObservableEmitter.onNext(newListContactfromDB);
-            } catch (NumberFormatException e) {
-                ObservableEmitter.onError(e);
-            } finally {
-                ObservableEmitter.onComplete();
             }
         });
     }

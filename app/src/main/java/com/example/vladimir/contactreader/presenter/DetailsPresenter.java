@@ -27,6 +27,16 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> implements Detai
     }
 
     @Override
+    public void getLat(double lat) {
+        getViewState().setLat(lat);
+    }
+
+    @Override
+    public void getLng(double lng) {
+        getViewState().setLng(lng);
+    }
+
+    @Override
     public void getDataEmail(String email) {
         getViewState().setDetailsEmail(email);
     }
@@ -35,7 +45,6 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> implements Detai
         detailsInterface.getData(this, key);
 
     }
-
 }
 
 

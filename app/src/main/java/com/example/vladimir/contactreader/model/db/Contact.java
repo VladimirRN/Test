@@ -5,9 +5,11 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.maps.model.LatLng;
+
 @Entity
 public class Contact {
-    public Contact(@NonNull Long id, String displayName, String lookupKey, String name, String surname, String phone, String email, String geo, String address, String mimetype) {
+    public Contact(@NonNull Long id, String displayName, String lookupKey, String name, String surname, String phone, String email, Double lat, Double lng, String mimetype) {
         this.id = id;
         this.displayName = displayName;
         this.lookupKey = lookupKey;
@@ -15,8 +17,8 @@ public class Contact {
         this.surname = surname;
         this.phone = phone;
         this.email = email;
-        this.geo = geo;
-        this.address = address;
+        this.lat = lat;
+        this.lng = lng;
         this.mimetype = mimetype;
     }
 
@@ -36,10 +38,10 @@ public class Contact {
     public String phone;
     @ColumnInfo(name = "email")
     public String email;
-    @ColumnInfo(name = "geo")
-    public String geo;
-    @ColumnInfo(name = "address")
-    public String address;
+    @ColumnInfo(name = "lat")
+    public Double lat;
+    @ColumnInfo(name = "lng")
+    public Double lng;
     @ColumnInfo(name = "mimetype")
     public String mimetype;
 
@@ -109,19 +111,19 @@ public class Contact {
         this.email = email;
     }
 
-    public String getGeo() {
-        return geo;
+    public Double getLat() {
+        return lat;
     }
 
-    public void setGeo(String geo) {
-        this.geo = geo;
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
-    public String getAddress() {
-        return address;
+    public Double getLng() {
+        return lng;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 }
