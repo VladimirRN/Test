@@ -1,7 +1,7 @@
 package com.example.vladimir.contactreader.di;
 
-import com.example.vladimir.contactreader.model.network.GeocodeApi;
-import com.example.vladimir.contactreader.model.network.RouteApi;
+import com.example.vladimir.contactreader.network.geocode.GeocodeApi;
+import com.example.vladimir.contactreader.network.route.RouteApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

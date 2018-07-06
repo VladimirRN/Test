@@ -1,8 +1,9 @@
 package com.example.vladimir.contactreader.di;
 
-import com.example.vladimir.contactreader.model.ContactLoad;
-import com.example.vladimir.contactreader.model.ContactLoading;
-import com.example.vladimir.contactreader.presenter.ContactPresenter;
+import com.example.vladimir.contactreader.app.AppDataBase;
+import com.example.vladimir.contactreader.data.ContactLoad;
+import com.example.vladimir.contactreader.data.ContactLoading;
+import com.example.vladimir.contactreader.presentation.contacts.ContactsPresenter;
 
 import javax.inject.Singleton;
 
@@ -13,8 +14,8 @@ import dagger.Provides;
 public class ContactListModule {
     @Provides
     @Singleton
-    public ContactPresenter getContactPresenter(ContactLoading contactLoading) {
-        return new ContactPresenter(contactLoading);
+    public ContactsPresenter getContactPresenter(ContactLoading contactLoading, AppDataBase appDataBase) {
+        return new ContactsPresenter(contactLoading, appDataBase);
 
     }
 
