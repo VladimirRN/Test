@@ -27,13 +27,8 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> implements Detai
     }
 
     @Override
-    public void getLat(double lat) {
-        getViewState().setLat(lat);
-    }
-
-    @Override
-    public void getLng(double lng) {
-        getViewState().setLng(lng);
+    public void getAddress(String address) {
+        getViewState().setAddress(address);
     }
 
     @Override

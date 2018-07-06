@@ -10,10 +10,11 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, DetailsContactModule.class, ContactListModule.class, MapModule.class})
+@Component(modules = {AppModule.class, DetailsContactModule.class, ContactListModule.class, MapModule.class, NetworkModule.class})
 public interface ContactComponent {
     void inject(DetailsFragment detailsFragment);
     void inject(ContactsFragment contactsFragment);
     void inject(App app);
     void inject(MapFragment mapFragment);
+
 }

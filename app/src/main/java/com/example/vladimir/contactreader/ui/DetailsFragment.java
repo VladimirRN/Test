@@ -43,8 +43,7 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
     private TextView emailText;
     private TextView nameText;
     private TextView surnameText;
-    private TextView latitude;
-    private TextView longitude;
+    private TextView addressText;
     private Button setLocation;
 
     private setLocation callback;
@@ -71,13 +70,10 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
         emailText = rootView.findViewById(R.id.textEmail);
         nameText = rootView.findViewById(R.id.textName);
         surnameText = rootView.findViewById(R.id.textFamily);
-        latitude = rootView.findViewById(R.id.textLat);
-        longitude = rootView.findViewById(R.id.textLng);
+        addressText = rootView.findViewById(R.id.textAddress);
         setLocation = rootView.findViewById(R.id.setLocation);
 
-
         setLocation.setOnClickListener(view -> startMap(key));
-
         Bundle args = getArguments();
         if (args != null) {
              key = args.getLong(INDEX);
@@ -118,13 +114,8 @@ public class DetailsFragment extends MvpAppCompatFragment implements DetailsView
     }
 
     @Override
-    public void setLat(double lat) {
-        latitude.setText(String.valueOf(lat));
-    }
-
-    @Override
-    public void setLng(double lng) {
-        longitude.setText(String.valueOf(lng));
+    public void setAddress(String address) {
+        addressText.setText(address);
     }
 
     @Override

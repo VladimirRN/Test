@@ -70,8 +70,18 @@ public class ContactPresenter extends MvpPresenter<ContactView>  {
             }
         };
         contactLoading.getContacts()
-                .flatMap((Function<List<Contact>, ObservableSource<Contact>>) Observable::fromIterable)
-                .flatMap((Function<Contact, ObservableSource<String>>) contact -> contactLoading.getDeatailsContact(contact))
+                .flatMap(new Function<List<Contact>, ObservableSource<Contact>>() {
+                    @Override
+                    public ObservableSource<Contact> apply(List<Contact> source) throws Exception {
+                        return Observable.fromIterable(source);
+                    }
+                })
+                .flatMap(new Function<Contact, ObservableSource<String>>() {
+                    @Override
+                    public ObservableSource<String> apply(Contact contact) throws Exception {
+                        return contactLoading.getDeatailsContact(contact);
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(disposableObserver);

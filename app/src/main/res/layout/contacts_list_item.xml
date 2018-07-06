@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
     android:clickable="false"
+    android:longClickable="true"
     android:focusable="false"
     android:fontFamily="@font/biryani_extralight"
     android:padding="8dp"

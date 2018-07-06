@@ -7,8 +7,6 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.List;
 
 import io.reactivex.Flowable;
@@ -22,15 +20,14 @@ public interface ContactDao {
     @Query("SELECT * FROM contact")
     Flowable<List<Contact>> getAllContact();
 
-
-//    @Query("Select * From contacts Where latitude <> 0 And longitude <> 0")
-//    List<Contact> getWithLatLng();
-
     @Query("SELECT * FROM contact WHERE lat <> 0 AND lng <> 0")
     Single<List<Contact>> getContacts();
 
     @Query("SELECT * FROM contact WHERE id = :id")
     Single<Contact> getContactById(long id);
+
+    @Query("SELECT * FROM contact WHERE id IN (:idList)")
+    Single<List<Contact>> getContactListById(List<Long> idList);
 
     @Query("SELECT * FROM contact WHERE id = :id")
     Flowable<Contact> getContact(long id);
@@ -55,6 +52,9 @@ public interface ContactDao {
 
     @Query("UPDATE contact SET lng = :lng WHERE id =:id")
     void updateLng(double lng, int id);
+
+    @Query("UPDATE contact SET address = :address WHERE id =:id")
+    void updateAddress(String address, int id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<Contact> list);

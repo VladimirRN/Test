@@ -11,12 +11,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.vladimir.contactreader.R;
+import com.google.android.gms.common.util.ArrayUtils;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements ContactsFragment.ClickOnItem, DetailsFragment.setLocation
 , MapFragment.OnInteractionListener{
 
     private static final String TAG = "TAG";
+    private static final String ROUTE = "ROUTE";
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
     public final String INDEX = "index";
     public final String MAP = "map";
@@ -79,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements ContactsFragment.
 
     @Override
     public void itemCLickInPhone(long id) {
-       // fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle args = new Bundle();
@@ -92,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements ContactsFragment.
 
     @Override
     public void startMapForListContacts() {
-        //fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         MapFragment mapFragment = new MapFragment();
         transaction.replace(R.id.fragment_container, mapFragment, "mapAllContact");
@@ -101,9 +103,25 @@ public class MainActivity extends AppCompatActivity implements ContactsFragment.
     }
 
     @Override
+    public void startRouteMap(ArrayList<Long> listIdForRoute) {
+        FragmentTransaction transaction = fm.beginTransaction();
+        MapFragment mapFragment = new MapFragment();
+        Bundle args = new Bundle();
+        long [] idRoute = new long[listIdForRoute.size()];
+        int i = 0;
+        for (Long e : listIdForRoute) {
+            idRoute[i++] = e;
+        }
+        args.putLongArray(ROUTE, idRoute );
+        mapFragment.setArguments(args);
+        transaction.replace(R.id.fragment_container, mapFragment, "map");
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
     public void startMapForSingleContact(long id) {
         Log.d(TAG, "id in activity = " + id);
-        //fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         MapFragment mapFragment = new MapFragment();
         Bundle args = new Bundle();
@@ -112,9 +130,7 @@ public class MainActivity extends AppCompatActivity implements ContactsFragment.
         transaction.replace(R.id.fragment_container, mapFragment, "map");
         transaction.addToBackStack(null);
         transaction.commit();
-        // mapFragment = (MapFragment) fm.findFragmentByTag("map");
-        // mapFragment.deletePosition();
-     //   fm.executePendingTransactions();
+
     }
 
     @Override
@@ -122,16 +138,6 @@ public class MainActivity extends AppCompatActivity implements ContactsFragment.
         fm.popBackStack();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        Log.d(TAG, "onBack not fragment");
-//        MapFragment mapFragment = (MapFragment) fm.findFragmentByTag("map");
-//            mapFragment.deletePosition();
-//            Log.d(TAG, "onBack");
-          //  fm.popBackSta;
-
-    }
 }
 
 

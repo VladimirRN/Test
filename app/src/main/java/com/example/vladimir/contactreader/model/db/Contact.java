@@ -5,11 +5,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import com.google.android.gms.maps.model.LatLng;
-
 @Entity
 public class Contact {
-    public Contact(@NonNull Long id, String displayName, String lookupKey, String name, String surname, String phone, String email, Double lat, Double lng, String mimetype) {
+    public Contact(@NonNull Long id, String displayName, String lookupKey, String name, String surname,
+                   String phone, String email, Double lat, Double lng, String mimetype, String address, boolean isSelected) {
         this.id = id;
         this.displayName = displayName;
         this.lookupKey = lookupKey;
@@ -20,6 +19,8 @@ public class Contact {
         this.lat = lat;
         this.lng = lng;
         this.mimetype = mimetype;
+        this.address = address;
+        this.isSelected = isSelected;
     }
 
     @NonNull
@@ -44,7 +45,27 @@ public class Contact {
     public Double lng;
     @ColumnInfo(name = "mimetype")
     public String mimetype;
+    @ColumnInfo(name = "address")
+    public String address;
+    public boolean isSelected;
 
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getLookupKey() {
         return lookupKey;

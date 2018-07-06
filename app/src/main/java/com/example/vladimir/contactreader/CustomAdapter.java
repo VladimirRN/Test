@@ -1,7 +1,9 @@
 package com.example.vladimir.contactreader;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     public interface ItemClickListener {
         void onItemClick(Long id);
+        void onItemChoice(Long id);
+        void onItemDeleteChoice(Long id);
+        void showMessage(String message);
     }
 
     public CustomAdapter(ItemClickListener itemClickListener) {
@@ -64,10 +69,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
         View view = layoutInflater.inflate(R.layout.contacts_list_item, parent, false);
-
         final ViewHolder viewHolder = new ViewHolder(view);
         view.setOnClickListener(v -> {
             Long id = arrayList.get(viewHolder.getAdapterPosition()).getId();
+            Log.d(TAG, " id = " + id);
             itemClickListener.onItemClick(id);
         });
         return viewHolder;
@@ -76,6 +81,36 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder holder, int position) {
         holder.namTextView.setText(arrayList.get(position).getDisplayName());
+        final Contact contact = arrayList.get(holder.getAdapterPosition());
+        holder.itemView.setBackgroundColor(contact.isSelected() ? Color.CYAN : Color.WHITE);
+        holder.namTextView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                int count = 0;
+                for (int i = 0; i < arrayList.size(); i++) {
+                    if (arrayList.get(i).isSelected){
+                        count++;
+                    }
+                }
+                 if (count < 2 | contact.isSelected) {
+                    if (contact.getAddress() == null) {
+                        itemClickListener.showMessage("У контакта нет адреса");
+                    } else {
+                        contact.setSelected(!contact.isSelected());
+                        holder.itemView.setBackgroundColor(contact.isSelected() ? Color.CYAN : Color.WHITE);
+                        if (contact.isSelected) {
+                            itemClickListener.onItemChoice(contact.getId());
+                            Log.d(TAG, "choise id = " + contact.getId());
+                        } else {
+                            itemClickListener.onItemDeleteChoice(contact.getId());
+                            Log.d(TAG, "Deletchoise id = " + contact.getId());
+
+                        }
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     @Override

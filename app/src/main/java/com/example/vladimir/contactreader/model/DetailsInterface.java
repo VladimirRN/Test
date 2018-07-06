@@ -9,9 +9,7 @@ public interface DetailsInterface {
 
         void getDataPhone(String phone);
 
-        void getLat(double lat);
-
-        void getLng(double lng);
+        void getAddress(String address);
     }
 
     void getData(onDetailsListener onDetailsListener, Long key);

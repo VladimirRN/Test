@@ -57,7 +57,7 @@ public class ContactLoad implements ContactLoading {
                     while (!cursor.isAfterLast()) {
                         myList.add(new Contact(Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))),
                                 cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)),
-                                cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)), null, null, null, null, null, null, null));
+                                cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)), null, null, null, null, null, null, null, null, false));
                         cursor.moveToNext();
                     }
                     cursor.close();

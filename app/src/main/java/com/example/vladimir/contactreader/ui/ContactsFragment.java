@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -26,6 +28,7 @@ import com.example.vladimir.contactreader.model.db.Contact;
 import com.example.vladimir.contactreader.presenter.ContactPresenter;
 import com.example.vladimir.contactreader.view.ContactView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -50,6 +53,7 @@ public class ContactsFragment extends MvpAppCompatFragment implements
     private CustomAdapter customAdapter;
     private boolean isTablet;
     private ProgressBar progressBar;
+    private ArrayList<Long> idRoute = new ArrayList<>();
 
     @Override
     public void onAttach(Context context) {
@@ -77,14 +81,39 @@ public class ContactsFragment extends MvpAppCompatFragment implements
         progressBar = rootView.findViewById(R.id.progressBar);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        CustomAdapter.ItemClickListener itemClickListener = idItem -> {
-            isTablet = getResources().getBoolean(R.bool.isTablet);
-            if (isTablet) {
-                getIdItemTablet(idItem);
-            } else {
-                getIdItemPhone(idItem);
+        CustomAdapter.ItemClickListener itemClickListener = new CustomAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(Long idItem) {
+                isTablet = ContactsFragment.this.getResources().getBoolean(R.bool.isTablet);
+                if (isTablet) {
+                    ContactsFragment.this.getIdItemTablet(idItem);
+                } else {
+                    ContactsFragment.this.getIdItemPhone(idItem);
+                }
+            }
+
+            @Override
+            public void onItemChoice(Long id) {
+                idRoute.add(id);
+                Log.d(TAG, "выбран ид = " + id);
+            }
+
+            @Override
+            public void onItemDeleteChoice(Long id) {
+                for (int i = 0; i < idRoute.size(); i++) {
+                    if (idRoute.get(i).equals(id)) {
+                        idRoute.remove(i);
+                        Log.d(TAG, "удален ид = " + id);
+                    }
+                }
+            }
+
+            @Override
+            public void showMessage(String message) {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
             }
         };
+
         customAdapter = new CustomAdapter(itemClickListener);
         recyclerView.setAdapter(customAdapter);
         MyDecoration myDecoration = new MyDecoration(getContext());
@@ -99,7 +128,6 @@ public class ContactsFragment extends MvpAppCompatFragment implements
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //TODO добавить значок просмотра всех пинов на карте
         getActivity().getMenuInflater().inflate(R.menu.main_menu, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(searchItem);
@@ -111,7 +139,16 @@ public class ContactsFragment extends MvpAppCompatFragment implements
         switch (item.getItemId()) {
             case R.id.action_map: {
                 callback.startMapForListContacts();
-            }
+            } break;
+            case R.id.action_route: {
+                if (idRoute.size() == 2) {
+
+                    callback.startRouteMap(idRoute);
+                }
+                else {
+                    Toast.makeText(getContext(), "Необходимо выбрать 2 контакта для построения маршрута", Toast.LENGTH_SHORT).show();
+                }
+            } break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -150,6 +187,8 @@ public class ContactsFragment extends MvpAppCompatFragment implements
         void itemCLickInPhone(long id);
 
         void startMapForListContacts();
+
+        void startRouteMap(ArrayList<Long> arrayList);
     }
 
     public void getIdItemTablet(long id) {

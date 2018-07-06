@@ -1,7 +1,9 @@
 package com.example.vladimir.contactreader.di;
 
 import com.example.vladimir.contactreader.model.MapPosition;
+import com.example.vladimir.contactreader.model.network.GeocodeApi;
 import com.example.vladimir.contactreader.model.SaveMapPosition;
+import com.example.vladimir.contactreader.model.network.RouteApi;
 import com.example.vladimir.contactreader.presenter.MapPresenter;
 
 import javax.inject.Singleton;
@@ -13,8 +15,8 @@ import dagger.Provides;
 public class MapModule {
     @Provides
     @Singleton
-    public MapPresenter getMapPresenter(SaveMapPosition saveMapPosition) {
-        return new MapPresenter(saveMapPosition);
+    public MapPresenter getMapPresenter(SaveMapPosition saveMapPosition, GeocodeApi geocodeApi, RouteApi routeApi) {
+        return new MapPresenter(saveMapPosition, geocodeApi, routeApi);
     }
 
     @Provides

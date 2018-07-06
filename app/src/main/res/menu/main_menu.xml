@@ -11,5 +11,11 @@
         android:id="@+id/action_map"
         android:title="@string/action_map"
         app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_myplaces"/>
+        android:icon="@drawable/baseline_place_white_36dp"/>
+
+    <item
+        android:id="@+id/action_route"
+        android:title="@string/route"
+        app:showAsAction="always"
+        android:icon="@drawable/baseline_navigation_white_36dp"/>
 </menu>
